@@ -1,0 +1,2695 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branded Methods Educators Health Intelligence Suite & AI Coach</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        },
+                        accent: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- html2canvas bundle for high-quality client-side Image generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full transition-colors duration-200">
+
+    <!-- Top Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-brand-500 rounded-xl text-white shadow-md shadow-brand-500/20">
+                        <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-accent-600 bg-clip-text text-transparent">My Health Intelligence</span>
+                        <span class="hidden sm:inline-block text-xs text-slate-400 ml-2 font-medium tracking-wide border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-full">Suite v3.4</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- Light / Dark Mode Toggle -->
+                    <button id="themeToggle" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition" title="Toggle Theme">
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    </button>
+                    <!-- Settings Toggle -->
+                    <button id="settingsToggle" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition relative" title="Configurations Center">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                        <span id="keyStatusIndicator" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- API Setup Drawer (Dismissable Info banner, Configurations & Google Sheet Settings) -->
+        <div id="settingsPanel" class="hidden mb-6 p-5 bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl relative shadow-sm space-y-6">
+            <button id="closeSettings" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Gemini Config -->
+                <div class="space-y-3">
+                    <h3 class="font-semibold text-lg flex items-center gap-2">
+                        <i data-lucide="cpu" class="text-brand-500 w-5 h-5"></i> Gemini AI Configuration
+                    </h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 max-w-md">
+                        To activate the Gemini 2.5 Flash personalized roadmap generation and coaching chat, provide your own Gemini API Key.
+                    </p>
+                    <input type="password" id="customApiKey" placeholder="AIZA... (Leave empty to use default system key)" class="w-full px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs">
+                </div>
+
+                <!-- Google Sheets Config -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-semibold text-lg flex items-center gap-2">
+                            <i data-lucide="sheet" class="text-accent-500 w-5 h-5"></i> Google Sheets Integration
+                        </h3>
+                        <button type="button" id="openSheetsGuide" class="text-[10px] text-accent-600 hover:underline font-bold flex items-center gap-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Setup Script Guide
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 max-w-md">
+                        Paste your published Google Apps Script Web App URL below to automatically stream registered diagnostics to your spreadsheet.
+                    </p>
+                    <input type="url" id="googleSheetsUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs">
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                <button id="saveKeyBtn" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
+                    <i data-lucide="check" class="w-4 h-4"></i> Save Global Configurations
+                </button>
+            </div>
+        </div>
+
+        <!-- Metric Systems Selector (Imperial vs Metric) -->
+        <div class="mb-8 flex justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <span class="font-semibold text-sm sm:text-base text-slate-700 dark:text-slate-300">Unit System:</span>
+            <div class="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-xl">
+                <button id="unitMetric" class="px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white transition">Metric (kg, cm, cm)</button>
+                <button id="unitImperial" class="px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition">Imperial (lbs, ft/in, in)</button>
+            </div>
+        </div>
+
+        <!-- Interactive Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Side: Interactive Calculators Form (Columns 1-7) -->
+            <div class="lg:col-span-7 space-y-8">
+                
+                <!-- Section Header -->
+                <div>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">Comprehensive Health Profiler</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Input your measurements to evaluate Obesity index, BMR, TDEE, and optimal nutritional targets simultaneously.</p>
+                </div>
+
+                <!-- Main Questionnaire Form -->
+                <form id="healthForm" class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                    
+                    <!-- Subject Identification Details -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                        <div>
+                            <label for="subjectName" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Name of Subject</label>
+                            <input type="text" id="subjectName" value="John Doe" class="w-full px-4 py-2.5 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-sm text-slate-800 dark:text-white transition">
+                        </div>
+                        <div>
+                            <label for="subjectEmail" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email ID</label>
+                            <input type="email" id="subjectEmail" value="johndoe@example.com" class="w-full px-4 py-2.5 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-sm text-slate-800 dark:text-white transition">
+                        </div>
+                    </div>
+
+                    <!-- Bio Metrics -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Biological Sex</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="border-2 border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition [&:has(input:checked)]:border-brand-500 [&:has(input:checked)]:bg-brand-50/50 dark:[&:has(input:checked)]:bg-brand-900/20">
+                                    <input type="radio" name="sex" value="male" checked class="sr-only">
+                                    <i data-lucide="user" class="w-5 h-5 text-blue-500 mb-1"></i>
+                                    <span class="text-xs font-semibold">Male</span>
+                                </label>
+                                <label class="border-2 border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition [&:has(input:checked)]:border-brand-500 [&:has(input:checked)]:bg-brand-50/50 dark:[&:has(input:checked)]:bg-brand-900/20">
+                                    <input type="radio" name="sex" value="female" class="sr-only">
+                                    <i data-lucide="user" class="w-5 h-5 text-pink-500 mb-1"></i>
+                                    <span class="text-xs font-semibold">Female</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-2 grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="inputAge" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Age</label>
+                                <div class="relative">
+                                    <input type="number" id="inputAge" value="30" min="15" max="100" class="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-lg text-slate-800 dark:text-white transition">
+                                    <span class="absolute right-4 top-3 text-sm text-slate-400 font-medium">yrs</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Primary Goal</label>
+                                <select id="fitnessGoal" class="w-full px-3 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-semibold text-sm transition">
+                                    <option value="maintenance">Balanced Maintenance</option>
+                                    <option value="weight_loss" selected>Sustainable Weight Loss</option>
+                                    <option value="muscle_gain">Lean Muscle Gain</option>
+                                    <option value="low_carb">Low-Carb Nutrition</option>
+                                    <option value="ketogenic">Keto-Adaptation</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Height & Weight Inputs -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div>
+                            <label id="heightLabel" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Height</label>
+                            <!-- Metric Height -->
+                            <div id="heightMetricWrapper" class="relative">
+                                <input type="number" id="inputHeightCm" value="175" min="100" max="250" class="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-lg text-slate-800 dark:text-white transition">
+                                <span class="absolute right-4 top-3 text-sm text-slate-400 font-medium">cm</span>
+                            </div>
+                            <!-- Imperial Height -->
+                            <div id="heightImperialWrapper" class="hidden grid grid-cols-2 gap-2">
+                                <div class="relative">
+                                    <input type="number" id="inputHeightFt" value="5" min="3" max="8" class="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-lg text-slate-800 dark:text-white transition">
+                                    <span class="absolute right-4 top-3 text-sm text-slate-400 font-medium">ft</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="number" id="inputHeightIn" value="9" min="0" max="11" class="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-lg text-slate-800 dark:text-white transition">
+                                    <span class="absolute right-4 top-3 text-sm text-slate-400 font-medium">in</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label id="weightLabel" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Weight</label>
+                            <div class="relative">
+                                <input type="number" id="inputWeight" value="85" min="20" max="300" step="0.1" class="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-bold text-lg text-slate-800 dark:text-white transition">
+                                <span id="weightUnitText" class="absolute right-4 top-3 text-sm text-slate-400 font-medium">kg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Waist, Hip & Neck Circumferences -->
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Circumferences & Body Composition Inputs</label>
+                            <span class="text-[11px] text-brand-600 dark:text-brand-400 font-medium">Crucial obesity & body fat metrics</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label for="inputWaist" class="block text-xs text-slate-500 mb-1">Waist Circumference</label>
+                                <div class="relative">
+                                    <input type="number" id="inputWaist" value="92" min="30" max="200" step="0.5" class="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                                    <span id="waistUnitText" class="absolute right-4 top-2 text-sm text-slate-400 font-medium">cm</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="inputHip" class="block text-xs text-slate-500 mb-1">Hip Circumference</label>
+                                <div class="relative">
+                                    <input type="number" id="inputHip" value="101" min="30" max="200" step="0.5" class="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                                    <span id="hipUnitText" class="absolute right-4 top-2 text-sm text-slate-400 font-medium">cm</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="inputNeck" class="block text-xs text-slate-500 mb-1">Neck Circumference</label>
+                                <div class="relative">
+                                    <input type="number" id="inputNeck" value="38" min="20" max="100" step="0.5" class="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                                    <span id="neckUnitText" class="absolute right-4 top-2 text-sm text-slate-400 font-medium">cm</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dynamic AS Index Display & Interpretation -->
+                        <div class="mt-3 p-3 bg-slate-100 dark:bg-slate-950/40 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                            <span class="font-semibold text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                                AS Index (Hip - Waist)
+                                <span class="group relative cursor-help">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2 bg-slate-900 text-white text-[10px] rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10 font-normal leading-normal">
+                                        Formula: Hip minus Waist circumference. Classified as Android (&lt;0 cm), Barrel Shaped (0-5 cm), or Gynoid (&gt;=8 cm) Obesity based on fat distribution.
+                                    </span>
+                                </span>
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <span id="asIndexClassBadge" class="px-2 py-0.5 text-[10px] font-bold rounded bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Evaluating...</span>
+                                <span class="font-extrabold text-brand-600 dark:text-brand-400"><span id="asIndexVal">9.0</span> <span id="asIndexUnit">cm</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Physical Activity Level (PAL) Multi-Method Section -->
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Physical Activity Level (PAL)</label>
+                            <span class="text-[10px] text-brand-600 dark:text-brand-400 font-bold uppercase tracking-wider" id="activePalBadge">CALCULATED PAL: 1.375</span>
+                        </div>
+
+                        <!-- Tab Selection Controls -->
+                        <div class="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800">
+                            <button type="button" id="tabPalQuick" class="flex-1 py-1.5 text-center rounded-lg bg-white dark:bg-slate-800 shadow text-slate-800 dark:text-white transition">
+                                Quick Estimate
+                            </button>
+                            <button type="button" id="tabPalDetailed" class="flex-1 py-1.5 text-center rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition">
+                                FAO/WHO 24h Recall
+                            </button>
+                        </div>
+
+                        <!-- Tab Content 1: Quick Estimate -->
+                        <div id="contentPalQuick" class="space-y-3">
+                            <!-- Sedentary -->
+                            <label class="flex items-start gap-3 border border-slate-200 dark:border-slate-800 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition bg-slate-50/50 dark:bg-slate-950/20 [&:has(input:checked)]:bg-brand-50/30 dark:[&:has(input:checked)]:bg-brand-900/10 [&:has(input:checked)]:border-brand-500">
+                                <input type="radio" name="activity" value="1.2" class="mt-1 accent-brand-500">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-1.5">
+                                        Sedentary <span class="text-xs font-normal text-slate-400">(PAL 1.2)</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">Little/no exercise. Typical desk job or inactive office lifestyle.</p>
+                                </div>
+                            </label>
+                            
+                            <!-- Lightly Active -->
+                            <label class="flex items-start gap-3 border border-slate-200 dark:border-slate-800 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition bg-slate-50/50 dark:bg-slate-950/20 [&:has(input:checked)]:bg-brand-50/30 dark:[&:has(input:checked)]:bg-brand-900/10 [&:has(input:checked)]:border-brand-500">
+                                <input type="radio" name="activity" value="1.375" checked class="mt-1 accent-brand-500">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-1.5">
+                                        Lightly Active <span class="text-xs font-normal text-slate-400">(PAL 1.375)</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">1–3 sessions per week of light exercise or high daily step counts.</p>
+                                </div>
+                            </label>
+
+                            <!-- Moderately Active -->
+                            <label class="flex items-start gap-3 border border-slate-200 dark:border-slate-800 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition bg-slate-50/50 dark:bg-slate-950/20 [&:has(input:checked)]:bg-brand-50/30 dark:[&:has(input:checked)]:bg-brand-900/10 [&:has(input:checked)]:border-brand-500">
+                                <input type="radio" name="activity" value="1.55" class="mt-1 accent-brand-500">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-1.5">
+                                        Moderately Active <span class="text-xs font-normal text-slate-400">(PAL 1.55)</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">3–5 sessions of moderate fitness/sports per week. Highly dynamic day.</p>
+                                </div>
+                            </label>
+
+                            <!-- Very Active -->
+                            <label class="flex items-start gap-3 border border-slate-200 dark:border-slate-800 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition bg-slate-50/50 dark:bg-slate-950/20 [&:has(input:checked)]:bg-brand-50/30 dark:[&:has(input:checked)]:bg-brand-900/10 [&:has(input:checked)]:border-brand-500">
+                                <input type="radio" name="activity" value="1.725" class="mt-1 accent-brand-500">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-1.5">
+                                        Very Active <span class="text-xs font-normal text-slate-400">(PAL 1.725)</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">6–7 intense workouts a week, or physically demanding labor occupation.</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Tab Content 2: FAO/WHO 24h Time Allocation Recall (Scientific PAL) -->
+                        <div id="contentPalDetailed" class="hidden space-y-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Daily Time allocation (24 hrs total)
+                                </span>
+                                <span id="hoursAllocatedBadge" class="px-2 py-0.5 rounded font-black bg-brand-500/10 text-brand-600 border border-brand-500/20">24 / 24 hrs</span>
+                            </div>
+
+                            <!-- 1. Sleep/Reclining -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs">
+                                    <span class="font-medium">Sleep & Lying down <span class="text-slate-400 text-[10px]">(PAR 1.0)</span></span>
+                                    <span class="font-bold" id="labelHrsSleep">8 hrs</span>
+                                </div>
+                                <input type="range" id="hrsSleep" min="0" max="24" value="8" class="w-full accent-brand-500">
+                            </div>
+
+                            <!-- 2. Sedentary/Light -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs">
+                                    <span class="font-medium">Sedentary & Light Activity <span class="text-slate-400 text-[10px]">(PAR 1.4)</span></span>
+                                    <span class="font-bold" id="labelHrsLight">10 hrs</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-0.5">Deskwork, eating, passive reading, slow walking, light cooking chores.</p>
+                                <input type="range" id="hrsLight" min="0" max="24" value="10" class="w-full accent-brand-500">
+                            </div>
+
+                            <!-- 3. Moderate Activity -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs">
+                                    <span class="font-medium">Moderate Exercise & Movement <span class="text-slate-400 text-[10px]">(PAR 2.2)</span></span>
+                                    <span class="font-bold" id="labelHrsModerate">5 hrs</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-0.5">Brisk walking, moving loads, household cleaning, active retail work, cycling.</p>
+                                <input type="range" id="hrsModerate" min="0" max="24" value="5" class="w-full accent-brand-500">
+                            </div>
+
+                            <!-- 4. Vigorous Activity -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs">
+                                    <span class="font-medium">Strenuous & Vigorous Activity <span class="text-slate-400 text-[10px]">(PAR 6.0)</span></span>
+                                    <span class="font-bold" id="labelHrsVigorous">1 hr</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-0.5">Running, heavy athletic training, structural labor, heavy weight lifting.</p>
+                                <input type="range" id="hrsVigorous" min="0" max="24" value="1" class="w-full accent-brand-500">
+                            </div>
+
+                            <!-- Warn Indicator if not matching 24 hours -->
+                            <div id="palHoursWarning" class="hidden p-2.5 bg-rose-50 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-900 rounded-xl text-[10px] text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1.5">
+                                <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                                <span id="palHoursWarningText">Total hours must equal exactly 24. Currently: 24 hrs.</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Physical Activity & Exercise Calorie Calculator (MET-based) -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="activity" class="text-accent-500 w-5 h-5"></i> Physical Activity & MET Burn Calculator
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Estimate exact active calorie expenditure based on activity metabolic equivalents (MET) relative to your weight.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="activityType" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Activity</label>
+                            <select id="activityType" class="w-full px-3 py-2.5 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl font-medium text-sm transition">
+                                <option value="3.5" data-name="Walking (Moderate, 3 mph)">Walking (Moderate) (3.5 METs)</option>
+                                <option value="5.0" data-name="Walking (Brisk, 4 mph)">Walking (Brisk) (5.0 METs)</option>
+                                <option value="8.0" data-name="Running (5 mph / 8 km/h)">Running (8.0 METs)</option>
+                                <option value="11.5" data-name="Running (Vigorous, 7 mph)">Running (Vigorous) (11.5 METs)</option>
+                                <option value="6.0" data-name="Bicycling (Moderate)">Bicycling (Moderate) (6.0 METs)</option>
+                                <option value="8.5" data-name="Bicycling (Vigorous)">Bicycling (Vigorous) (8.5 METs)</option>
+                                <option value="5.8" data-name="Swimming (Light/Moderate Laps)">Swimming (Laps) (5.8 METs)</option>
+                                <option value="3.5" data-name="Strength Training (Weight Lifting)">Strength Training (3.5 METs)</option>
+                                <option value="6.0" data-name="Circuit Training / HIIT">HIIT / Circuit (6.0 METs)</option>
+                                <option value="2.5" data-name="Yoga (Hatha/Stretching)">Yoga (2.5 METs)</option>
+                                <option value="4.0" data-name="Elliptical Trainer">Elliptical Trainer (4.0 METs)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="activityDuration" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Duration</label>
+                            <div class="relative">
+                                <input type="number" id="activityDuration" value="30" min="1" max="480" class="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500 text-sm font-semibold">
+                                <span class="absolute right-4 top-2 text-sm text-slate-400">mins</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 gap-4">
+                        <div class="text-center sm:text-left">
+                            <span class="text-xs text-slate-400 font-medium">Estimated Burn for this Session:</span>
+                            <div class="text-2xl font-extrabold text-accent-600 dark:text-accent-400"><span id="sessionBurnValue">156</span> <span class="text-xs font-normal text-slate-400">kcal</span></div>
+                        </div>
+                        <button type="button" id="logActivityBtn" class="w-full sm:w-auto px-5 py-2.5 bg-accent-500 hover:bg-accent-600 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-2">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Add to Daily Workout Log
+                        </button>
+                    </div>
+
+                    <!-- Active Workout Log Display -->
+                    <div id="workoutLogSection" class="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3">
+                        <div class="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            <span>Logged Activities Today</span>
+                            <button id="clearWorkoutLog" class="text-red-500 hover:text-red-600 dark:hover:text-red-400 transition lowercase text-[10px] font-semibold">Clear Log</button>
+                        </div>
+                        <div id="loggedActivitiesContainer" class="space-y-2 max-h-[160px] overflow-y-auto">
+                            <!-- Populated with elements -->
+                            <p class="text-xs text-slate-400 text-center italic py-4">No exercises logged for today yet.</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-brand-500/10 border border-brand-500/20 rounded-xl">
+                            <span class="text-xs font-bold text-slate-600 dark:text-brand-400 uppercase tracking-wider">Total Active Burn:</span>
+                            <span class="text-sm font-black text-brand-600 dark:text-brand-400"><span id="totalActiveBurnVal">0</span> kcal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Citations & Scientific References Card -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                        <i data-lucide="book-open" class="w-4 h-4"></i> Medical Citations & Scientific References
+                    </h3>
+                    <ul class="text-[11px] text-slate-500 dark:text-slate-400 space-y-2 leading-relaxed">
+                        <li>
+                            <strong class="text-slate-700 dark:text-slate-300">Basal Metabolic Rate (BMR):</strong> Calculated using the <em class="italic">Mifflin-St Jeor Equation</em> (Mifflin et al., 1990, American Journal of Clinical Nutrition). Individuals with extreme adiposity are tailored using the lean mass-driven <em class="italic">Katch-McArdle Formula</em>.
+                        </li>
+                        <li>
+                            <strong class="text-slate-700 dark:text-slate-300">Body Fat Percentage:</strong> Modeled using the <em class="italic">U.S. Navy Circumference Equation</em> (Hodgdon & Beckett, 1984, U.S. Navy Medical Technical Report). Classifications align with standards of the <em class="italic">American Council on Exercise (ACE)</em>.
+                        </li>
+                        <li>
+                            <strong class="text-slate-700 dark:text-slate-300">Physical Activity Level (PAL):</strong> Configured via standard multipliers or dynamically calculated using the peer-reviewed <em class="italic">FAO/WHO/UNU 24-Hour Time-Allocation Model</em> (Joint Expert Consultation on Human Energy Requirements, Rome, 2001/2004).
+                        </li>
+                        <li>
+                            <strong class="text-slate-700 dark:text-slate-300">Metabolic Equivalents (METs):</strong> Energy expenditure estimations based on standard multipliers derived from the <em class="italic">Compendium of Physical Activities</em> (Ainsworth et al., 2011, Medicine & Science in Sports & Exercise).
+                        </li>
+                        <li>
+                            <strong class="text-slate-700 dark:text-slate-300">Obesity Classifications & Waist Ratios:</strong> Standard thresholds and BMI divisions derived directly from guidelines published by the <em class="italic">World Health Organization (WHO)</em> and the <em class="italic">International Diabetes Federation (IDF)</em>.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Real-time Reports & Gemini AI Integration (Columns 8-12) -->
+            <div class="lg:col-span-5 space-y-8">
+                
+                <!-- Obesity, BMI & Fat Distribution Card -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <i data-lucide="scale" class="text-red-500 w-5 h-5"></i> Obesity & Risk Analysis
+                        </h3>
+                        <span id="bmiClassBadge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-orange-100 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400">Over-weight</span>
+                    </div>
+
+                    <!-- BMI Gauge SVG Graphics -->
+                    <div class="flex flex-col items-center">
+                        <div class="relative w-full max-w-[280px]">
+                            <svg viewBox="0 0 100 50" class="w-full">
+                                <!-- Background Track -->
+                                <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round" class="dark:stroke-slate-800"/>
+                                <!-- BMI Color Zones -->
+                                <path d="M 10 50 A 40 40 0 0 1 28.5 24" fill="none" stroke="#38bdf8" stroke-width="8" class="opacity-60"/>
+                                <path d="M 28.5 24 A 40 40 0 0 1 50 10" fill="none" stroke="#22c55e" stroke-width="8" class="opacity-60"/>
+                                <path d="M 50 10 A 40 40 0 0 1 68 15" fill="none" stroke="#eab308" stroke-width="8" class="opacity-60"/>
+                                <path d="M 68 15 A 40 40 0 0 1 90 50" fill="none" stroke="#ef4444" stroke-width="8" class="opacity-60"/>
+                                
+                                <!-- Pointer Dial Indicator -->
+                                <line id="gaugePointer" x1="50" y1="50" x2="50" y2="15" stroke="#475569" stroke-width="3" stroke-linecap="round" class="dark:stroke-white origin-[50px_50px] transition-transform duration-500 ease-out" />
+                                <circle cx="50" cy="50" r="5" fill="#475569" class="dark:fill-white" />
+                            </svg>
+                            <div class="text-center mt-2">
+                                <div id="bmiNumber" class="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">27.8</div>
+                                <div class="text-xs text-slate-400 font-medium">Body Mass Index (BMI)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Grid (BMI, WHR, WHtR) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+                            <div class="text-xs text-slate-400 font-medium mb-1 flex items-center justify-center gap-1">
+                                Waist-to-Hip (WHR) 
+                                <span class="group relative cursor-help">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-900 text-white text-[10px] rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10 font-normal">
+                                        WHR indicates abdominal fat distribution. Danger threshold: >0.9 for Men, >0.85 for Women.
+                                    </span>
+                                </span>
+                            </div>
+                            <div id="whrNumber" class="text-xl font-bold">0.91</div>
+                            <span id="whrRiskBadge" class="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase">Moderate Risk</span>
+                        </div>
+
+                        <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+                            <div class="text-xs text-slate-400 font-medium mb-1 flex items-center justify-center gap-1">
+                                Waist-to-Height (WHtR)
+                                <span class="group relative cursor-help">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-900 text-white text-[10px] rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10 font-normal">
+                                        WHtR calculates core fat layout. Standard recommendations: keep waist below half your height (<0.5).
+                                    </span>
+                                </span>
+                            </div>
+                            <div id="whtrNumber" class="text-xl font-bold">0.53</div>
+                            <span id="whtrRiskBadge" class="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase">Over half</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Composition & Fat Mass Report -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <h3 class="font-bold text-lg flex items-start gap-2">
+                            <i data-lucide="percent" class="text-purple-500 w-5 h-5 mt-0.5 flex-shrink-0"></i>
+                            <div>
+                                <span>Body Composition</span>
+                                <span class="block text-xs font-medium text-slate-400 dark:text-slate-500 mt-0.5">(U.S. Navy Method)</span>
+                            </div>
+                        </h3>
+                        <span id="bodyFatClassBadge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400">Evaluating...</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center relative overflow-hidden">
+                            <div class="text-xs text-slate-400 font-medium mb-1">Body Fat Percentage</div>
+                            <div id="bodyFatPctVal" class="text-3xl font-extrabold text-purple-600 dark:text-purple-400">22.4%</div>
+                            <span class="text-[10px] text-slate-400 block mt-1">Total fat mass proportion</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center relative overflow-hidden">
+                            <div class="text-xs text-slate-400 font-medium mb-1">Lean Body Mass</div>
+                            <div id="leanBodyMassVal" class="text-3xl font-extrabold text-brand-600 dark:text-brand-400">66.0 kg</div>
+                            <span class="text-[10px] text-slate-400 block mt-1">Muscles, bones & organs</span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Fat vs Lean Composition Split Bar -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-wider">
+                            <span>Lean Mass</span>
+                            <span>Fat Mass</span>
+                        </div>
+                        <div class="w-full h-4 bg-purple-500 rounded-full overflow-hidden flex">
+                            <div id="leanMassBar" class="bg-brand-500 h-full transition-all duration-500" style="width: 75%"></div>
+                            <div id="fatMassBar" class="bg-purple-500 h-full transition-all duration-500" style="width: 25%"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] font-semibold">
+                            <span id="leanMassWeightText" class="text-brand-600 dark:text-brand-400">66.0 kg</span>
+                            <span id="fatMassWeightText" class="text-purple-600 dark:text-purple-400">19.0 kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nutrition & Metabolism Card (BMR, TDEE & Target) -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                    <h3 class="font-bold text-lg flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <i data-lucide="flame" class="text-orange-500 w-5 h-5"></i> Metabolism & Nutrition Plan
+                    </h3>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl text-center border border-slate-100 dark:border-slate-800">
+                            <div class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">BMR</div>
+                            <div id="bmrValue" class="text-base sm:text-lg font-extrabold text-slate-700 dark:text-slate-200">1,780</div>
+                            <div class="text-[9px] text-slate-400">Resting kcal</div>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl text-center border border-slate-100 dark:border-slate-800">
+                            <div class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">TDEE</div>
+                            <div id="tdeeValue" class="text-base sm:text-lg font-extrabold text-slate-700 dark:text-slate-200">2,448</div>
+                            <div class="text-[9px] text-slate-400">Burned daily</div>
+                        </div>
+                        <div class="p-3 bg-brand-500/10 dark:bg-brand-900/20 rounded-xl text-center border border-brand-500/20">
+                            <div class="text-[10px] text-brand-600 dark:text-brand-400 uppercase tracking-wider font-bold">Target</div>
+                            <div id="targetCalories" class="text-base sm:text-lg font-extrabold text-brand-600 dark:text-brand-400">1,948</div>
+                            <div class="text-[9px] text-brand-500">Dietary Goal</div>
+                        </div>
+                    </div>
+
+                    <!-- Macro Splits Progress Bar representation -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center text-xs font-semibold">
+                            <span class="text-slate-500 dark:text-slate-400 uppercase tracking-wider">Macronutrient Distributions</span>
+                            <span id="selectedGoalLabel" class="text-brand-600 dark:text-brand-400">Sustainable Weight Loss</span>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <!-- Protein -->
+                            <div>
+                                <div class="flex justify-between text-xs font-medium mb-1">
+                                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Protein (4 kcal/g)</span>
+                                    <span id="proteinSplitText" class="font-bold">146g / 584 kcal (30%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                                    <div id="proteinProgress" class="bg-red-500 h-full rounded-full transition-all duration-300" style="width: 30%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Carbohydrates -->
+                            <div>
+                                <div class="flex justify-between text-xs font-medium mb-1">
+                                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Carbohydrates (4 kcal/g)</span>
+                                    <span id="carbSplitText" class="font-bold">195g / 780 kcal (40%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                                    <div id="carbProgress" class="bg-blue-500 h-full rounded-full transition-all duration-300" style="width: 40%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Fats -->
+                            <div>
+                                <div class="flex justify-between text-xs font-medium mb-1">
+                                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Dietary Fats (9 kcal/g)</span>
+                                    <span id="fatSplitText" class="font-bold">65g / 584 kcal (30%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 font-bold h-2.5 rounded-full overflow-hidden">
+                                    <div id="fatProgress" class="bg-amber-500 h-full rounded-full transition-all duration-300" style="width: 30%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini AI Personalized Action Center -->
+                <div class="bg-gradient-to-br from-indigo-50 to-emerald-50 dark:from-slate-900 dark:to-indigo-950/30 rounded-3xl p-6 border-2 border-indigo-200 dark:border-indigo-900/60 shadow-xl space-y-6">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">POWERED BY AI</span>
+                                <span class="text-xs text-indigo-600 dark:text-indigo-400 font-bold">Gemini 2.5 Flash</span>
+                            </div>
+                            <h3 class="font-extrabold text-xl text-slate-900 dark:text-white mt-1">AI Health & Coaching Hub</h3>
+                        </div>
+                        <div class="p-2.5 bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-2xl">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-600 dark:text-slate-300">
+                        Compile your calculations instantly into a professionally generated 7-Day Fitness, Workout, and Meal Strategy based on current health risk markers.
+                    </p>
+
+                    <!-- CTA Button -->
+                    <button id="generatePlanBtn" class="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-700 hover:to-brand-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        Generate Customized 7-Day Strategy
+                    </button>
+
+                    <!-- Loader -->
+                    <div id="aiLoader" class="hidden flex flex-col items-center justify-center p-6 space-y-3">
+                        <div class="relative w-12 h-12">
+                            <div class="absolute w-12 h-12 rounded-full border-4 border-indigo-200 dark:border-indigo-950 animate-pulse"></div>
+                            <div class="absolute w-12 h-12 rounded-full border-4 border-t-indigo-600 animate-spin"></div>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium animate-pulse text-center">Consulting Gemini 2.5 Flash. Setting up calculations and modeling nutrition profiles...</p>
+                    </div>
+
+                    <!-- AI Output Result Section -->
+                    <div id="aiOutputContainer" class="hidden space-y-4">
+                        <div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4">
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-brand-500"></i> Bespoke Fitness Strategy Ready
+                            </span>
+                            <button id="copyPlanBtn" class="p-1.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Copy To Clipboard">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div id="aiPlanOutput" class="p-4 bg-white dark:bg-slate-950 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl text-xs sm:text-sm leading-relaxed max-h-[350px] overflow-y-auto prose dark:prose-invert">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Live Coaching Chat Module -->
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-3">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ask Your Wellness Coach</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="chatInput" placeholder="How do I prepare high-protein snacks?..." class="flex-1 px-4 py-2.5 text-sm bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button id="sendChatBtn" class="p-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition flex items-center justify-center">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <!-- Chat Message Thread -->
+                        <div id="chatHistory" class="hidden space-y-2.5 max-h-[180px] overflow-y-auto p-2 bg-slate-50 dark:bg-slate-950/40 rounded-xl border border-slate-100 dark:border-slate-900">
+                            <!-- Dynamic messages -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Bottom Full-Width Section: Saved Subject Registry Database -->
+            <div class="col-span-12 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="folder-heart" class="text-brand-500 w-5 h-5"></i> Clinical Subject Registry Directory
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Locally model or securely store patient details, metabolic rates, body fat percentages, logged MET workouts, and target goals.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="button" id="saveSubjectBtn" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                            <i data-lucide="save" class="w-4 h-4"></i> Save / Update Current Subject
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters & Search -->
+                <div class="relative max-w-md">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </span>
+                    <input type="text" id="searchRegistry" placeholder="Search registry by Name or Email ID..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-800 dark:text-white transition">
+                </div>
+
+                <!-- Database Registry Table View -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                                <th class="py-3 px-4 text-left">Subject Patient</th>
+                                <th class="py-3 px-4">Sex / Age</th>
+                                <th class="py-3 px-4">BMI Index</th>
+                                <th class="py-3 px-4">Body Fat %</th>
+                                <th class="py-3 px-4">AS Index Classification</th>
+                                <th class="py-3 px-4">Active Calories (TDEE)</th>
+                                <th class="py-3 px-4">Nutrition Target</th>
+                                <th class="py-3 px-4 text-center">Recall Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registryTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr>
+                                <td colspan="8" class="text-center py-8 text-slate-400 italic">No clinical subjects currently saved. Click "Save / Update Current Subject" above.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Google Sheets Integration Script Modal Setup Instructions -->
+        <div id="sheetsGuideModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="sheet" class="text-accent-500 w-5 h-5"></i> Google Sheets Setup Guide
+                    </h3>
+                    <button type="button" id="closeSheetsGuide" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                    <p class="font-semibold text-slate-800 dark:text-white">Follow these simple steps to link this app directly to any Google Sheet:</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Create a brand new **Google Sheet** (or open an existing one).</li>
+                        <li>In the top menu, go to <strong class="text-slate-800 dark:text-white">Extensions &rarr; Apps Script</strong>.</li>
+                        <li>Delete any placeholder code in the script editor and **paste the Apps Script Code** provided below.</li>
+                        <li>Click <strong class="text-slate-800 dark:text-white">Deploy &rarr; New Deployment</strong> (top right).</li>
+                        <li>Set the select box under "Select type" to <strong class="text-slate-800 dark:text-white">Web App</strong> (click the gear icon if you don't see it).</li>
+                        <li>Configure access settings exactly like this:
+                            <ul class="list-disc list-inside ml-6 mt-1 space-y-1">
+                                <li>Execute as: <strong class="text-slate-800 dark:text-white">Me (your-email)</strong></li>
+                                <li>Who has access: <strong class="text-slate-800 dark:text-white">Anyone</strong></li>
+                            </ul>
+                        </li>
+                        <li>Click <strong class="text-slate-800 dark:text-white">Deploy</strong>, authorize permissions, and **copy the Web App URL** displayed.</li>
+                        <li>Paste that copied URL in the URL input located in the settings panel above, then save configurations.</li>
+                    </ol>
+
+                    <div class="space-y-1 mt-4">
+                        <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-950 p-2 rounded-t-xl border border-slate-200 dark:border-slate-800">
+                            <span class="font-bold text-[10px] uppercase text-slate-500 tracking-wider">Apps Script Code Template</span>
+                            <button type="button" id="copyAppsScriptBtn" class="text-[10px] text-brand-600 hover:underline font-bold flex items-center gap-1">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Script
+                            </button>
+                        </div>
+                        <pre id="appsScriptTemplate" class="p-4 bg-slate-950 text-emerald-400 rounded-b-xl overflow-x-auto text-[10px] font-mono leading-normal h-48 border border-t-0 border-slate-200 dark:border-slate-800">
+function doPost(e) {
+  try {
+    var sessionData = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    
+    // Set headers if the sheet is completely empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp", "Subject Name", "Email ID", "Sex", "Age", "Goal", "Activity Level",
+        "Height", "Weight", "BMI", "BMI Classification", "Body Fat %", "Body Fat Classification",
+        "AS Index Value", "AS Index Classification", "BMR (kcal)", "TDEE (kcal)", "Calorie Target"
+      ]);
+    }
+
+    // Append calculated diagnostic parameters as a new row
+    sheet.appendRow([
+      new Date().toLocaleString(),
+      sessionData.subjectName || "N/A",
+      sessionData.subjectEmail || "N/A",
+      sessionData.sex || "N/A",
+      sessionData.age || "",
+      sessionData.goal || "N/A",
+      sessionData.activity || "N/A",
+      sessionData.height || "N/A",
+      sessionData.weight || "N/A",
+      sessionData.calculations?.bmi || "N/A",
+      sessionData.calculations?.bmiClass || "N/A",
+      sessionData.calculations?.bodyFatPercentage || "N/A",
+      sessionData.calculations?.bodyFatClassification || "N/A",
+      sessionData.calculations?.asIndex || "N/A",
+      sessionData.calculations?.asIndexClassification || "N/A",
+      sessionData.calculations?.bmr || "N/A",
+      sessionData.calculations?.tdee || "N/A",
+      sessionData.calculations?.calorieGoal || "N/A"
+    ]);
+
+    return ContentService.createTextOutput(JSON.stringify({ "status": "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(error) {
+    return ContentService.createTextOutput(JSON.stringify({ "status": "error", "error": error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic University Affiliation Footer Block -->
+        <footer class="col-span-12 mt-12 border-t border-slate-200 dark:border-slate-800 pt-6 pb-4 text-center text-xs text-slate-400 dark:text-slate-500">
+            <p class="font-extrabold text-brand-600 dark:text-brand-400 text-sm tracking-wide">Applied College, University of Tabuk, Saudi Arabia</p>
+            <p class="mt-1.5 font-medium text-slate-500 dark:text-slate-400">Health Intelligence & Diagnostics Suite &copy; 2026. All medical metrics are calibrated according to WHO, ACE, and IDF directives.</p>
+        </footer>
+
+    </main>
+
+    <!-- Global App Script -->
+    <!-- Loading Firebase modules as Type Module for clinical persistence -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Default API Key variable as requested by System instructions
+        const apiKey = ""; 
+
+        // Environment key verification state
+        let userDefinedApiKey = "";
+        let googleSheetsWebAppUrl = "";
+
+        // UI State Variables
+        let currentSystem = 'metric'; // metric | imperial
+        let currentPalCalculationMode = 'quick'; // quick | detailed
+
+        // Active physical workouts log list
+        let exerciseLogs = [];
+
+        // Clinical Saved Subjects Registry (Local Fallback State)
+        let localSubjectsRegistry = [];
+        let isFirebaseActive = false;
+        let firestoreInstance = null;
+        let authInstance = null;
+        let appIdValue = "health-intel-app";
+        let registryFilterQuery = "";
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const closeSettings = document.getElementById('closeSettings');
+        const customApiKey = document.getElementById('customApiKey');
+        const googleSheetsUrl = document.getElementById('googleSheetsUrl');
+        const saveKeyBtn = document.getElementById('saveKeyBtn');
+        const keyStatusIndicator = document.getElementById('keyStatusIndicator');
+
+        const unitMetric = document.getElementById('unitMetric');
+        const unitImperial = document.getElementById('unitImperial');
+
+        const healthForm = document.getElementById('healthForm');
+        const subjectNameInput = document.getElementById('subjectName');
+        const subjectEmailInput = document.getElementById('subjectEmail');
+        const inputAge = document.getElementById('inputAge');
+        const fitnessGoal = document.getElementById('fitnessGoal');
+
+        const heightMetricWrapper = document.getElementById('heightMetricWrapper');
+        const heightImperialWrapper = document.getElementById('heightImperialWrapper');
+        const inputHeightCm = document.getElementById('inputHeightCm');
+        const inputHeightFt = document.getElementById('inputHeightFt');
+        const inputHeightIn = document.getElementById('inputHeightIn');
+
+        const weightLabel = document.getElementById('weightLabel');
+        const heightLabel = document.getElementById('heightLabel');
+        const inputWeight = document.getElementById('inputWeight');
+        const weightUnitText = document.getElementById('weightUnitText');
+
+        const inputWaist = document.getElementById('inputWaist');
+        const inputHip = document.getElementById('inputHip');
+        const inputNeck = document.getElementById('inputNeck');
+        const waistUnitText = document.getElementById('waistUnitText');
+        const hipUnitText = document.getElementById('hipUnitText');
+        const neckUnitText = document.getElementById('neckUnitText');
+
+        // Physical Activity Calculator Elements
+        const activityType = document.getElementById('activityType');
+        const activityDuration = document.getElementById('activityDuration');
+        const sessionBurnValue = document.getElementById('sessionBurnValue');
+        const logActivityBtn = document.getElementById('logActivityBtn');
+        const clearWorkoutLog = document.getElementById('clearWorkoutLog');
+        const loggedActivitiesContainer = document.getElementById('loggedActivitiesContainer');
+        const totalActiveBurnVal = document.getElementById('totalActiveBurnVal');
+
+        // PAL Tab Controls
+        const tabPalQuick = document.getElementById('tabPalQuick');
+        const tabPalDetailed = document.getElementById('tabPalDetailed');
+        const contentPalQuick = document.getElementById('contentPalQuick');
+        const contentPalDetailed = document.getElementById('contentPalDetailed');
+        const activePalBadge = document.getElementById('activePalBadge');
+
+        // Detailed PAL Input Sliders
+        const hrsSleep = document.getElementById('hrsSleep');
+        const hrsLight = document.getElementById('hrsLight');
+        const hrsModerate = document.getElementById('hrsModerate');
+        const hrsVigorous = document.getElementById('hrsVigorous');
+        const hoursAllocatedBadge = document.getElementById('hoursAllocatedBadge');
+        const palHoursWarning = document.getElementById('palHoursWarning');
+        const palHoursWarningText = document.getElementById('palHoursWarningText');
+
+        // Subjects Registry DOM Controls
+        const saveSubjectBtn = document.getElementById('saveSubjectBtn');
+        const searchRegistry = document.getElementById('searchRegistry');
+        const registryTableBody = document.getElementById('registryTableBody');
+
+        // Setup Guide DOM Controls
+        const openSheetsGuide = document.getElementById('openSheetsGuide');
+        const closeSheetsGuide = document.getElementById('closeSheetsGuide');
+        const sheetsGuideModal = document.getElementById('sheetsGuideModal');
+        const copyAppsScriptBtn = document.getElementById('copyAppsScriptBtn');
+        const appsScriptTemplate = document.getElementById('appsScriptTemplate');
+
+        // Results DOM
+        const bmiClassBadge = document.getElementById('bmiClassBadge');
+        const gaugePointer = document.getElementById('gaugePointer');
+        const bmiNumber = document.getElementById('bmiNumber');
+        const whrNumber = document.getElementById('whrNumber');
+        const whrRiskBadge = document.getElementById('whrRiskBadge');
+        const whtrNumber = document.getElementById('whtrNumber');
+        const whtrRiskBadge = document.getElementById('whtrRiskBadge');
+
+        // Body Composition Results DOM
+        const bodyFatClassBadge = document.getElementById('bodyFatClassBadge');
+        const bodyFatPctVal = document.getElementById('bodyFatPctVal');
+        const leanBodyMassVal = document.getElementById('leanBodyMassVal');
+        const leanMassBar = document.getElementById('leanMassBar');
+        const fatMassBar = document.getElementById('fatMassBar');
+        const leanMassWeightText = document.getElementById('leanMassWeightText');
+        const fatMassWeightText = document.getElementById('fatMassWeightText');
+
+        const bmrValue = document.getElementById('bmrValue');
+        const tdeeValue = document.getElementById('tdeeValue');
+        const targetCalories = document.getElementById('targetCalories');
+        const selectedGoalLabel = document.getElementById('selectedGoalLabel');
+
+        const proteinSplitText = document.getElementById('proteinSplitText');
+        const proteinProgress = document.getElementById('proteinProgress');
+        const carbSplitText = document.getElementById('carbSplitText');
+        const carbProgress = document.getElementById('carbProgress');
+        const fatSplitText = document.getElementById('fatSplitText');
+        const fatProgress = document.getElementById('fatProgress');
+
+        // Gemini DOM
+        const generatePlanBtn = document.getElementById('generatePlanBtn');
+        const aiLoader = document.getElementById('aiLoader');
+        const aiOutputContainer = document.getElementById('aiOutputContainer');
+        const aiPlanOutput = document.getElementById('aiPlanOutput');
+        const copyPlanBtn = document.getElementById('copyPlanBtn');
+
+        const chatInput = document.getElementById('chatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const chatHistory = document.getElementById('chatHistory');
+
+        // Cached active calculation state to pass dynamically to Gemini API / Database builders
+        let calculationsCache = {};
+        let generatedAiPlanRaw = "";
+
+        // --- DYNAMIC persist init (Firestore Rules 1, 2, 3 checked) ---
+        const getFirebaseConfig = () => {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                try {
+                    return JSON.parse(__firebase_config);
+                } catch (e) {
+                    console.error("Failed to parse __firebase_config", e);
+                }
+            }
+            return null;
+        };
+        const getAppId = () => {
+            return typeof __app_id !== 'undefined' ? __app_id : 'health-intel-app';
+        };
+
+        const config = getFirebaseConfig();
+        appIdValue = getAppId();
+
+        if (config) {
+            try {
+                const app = initializeApp(config);
+                authInstance = getAuth(app);
+                firestoreInstance = getFirestore(app);
+
+                const initAuth = async () => {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(authInstance, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(authInstance);
+                    }
+                };
+
+                initAuth().catch(console.error);
+
+                onAuthStateChanged(authInstance, (user) => {
+                    if (user) {
+                        isFirebaseActive = true;
+                        setupFirebaseSubscription(firestoreInstance, appIdValue);
+                    }
+                });
+            } catch (e) {
+                console.error("Firebase Persistence initialization failed, falling back to local memory:", e);
+            }
+        }
+
+        // Setup Firestore Listener (RULE 1 Path check)
+        function setupFirebaseSubscription(db, appId) {
+            const subjectsCol = collection(db, 'artifacts', appId, 'public', 'data', 'subjects');
+            onSnapshot(subjectsCol, (snapshot) => {
+                const subjects = [];
+                snapshot.forEach(doc => {
+                    subjects.push({ id: doc.id, ...doc.data() });
+                });
+                // Sort by updatedAt in memory (Rule 2 Compound query safeguard)
+                subjects.sort((a, b) => {
+                    const timeA = a.updatedAt?.seconds ? a.updatedAt.seconds * 1000 : (a.updatedAt || 0);
+                    const timeB = b.updatedAt?.seconds ? b.updatedAt.seconds * 1000 : (b.updatedAt || 0);
+                    return timeB - timeA;
+                });
+                localSubjectsRegistry = subjects;
+                renderSubjectsRegistry();
+            }, (error) => {
+                console.error("Firestore subscription error:", error);
+            });
+        }
+
+        // On Load initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load theme
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            // Check stored API key safely from session/local storage
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                userDefinedApiKey = savedKey;
+                customApiKey.value = savedKey;
+                updateKeyStatus(true);
+            } else {
+                updateKeyStatus(false);
+            }
+
+            // Check stored Google Sheets Web App URL
+            const savedSheetUrl = localStorage.getItem('google_sheets_url');
+            if (savedSheetUrl) {
+                googleSheetsWebAppUrl = savedSheetUrl;
+                googleSheetsUrl.value = savedSheetUrl;
+            }
+
+            // Expose required methods globally to allow inline markup button actions
+            window.removeWorkoutLog = removeWorkoutLog;
+            window.loadSubjectProfile = loadSubjectProfile;
+            window.deleteSubjectProfile = deleteSubjectProfile;
+            window.downloadSubjectImage = downloadSubjectImage;
+
+            lucide.createIcons();
+            recalculateHealthSuite();
+        });
+
+        // Toggle Settings panel
+        settingsToggle.addEventListener('click', () => {
+            settingsPanel.classList.toggle('hidden');
+        });
+        closeSettings.addEventListener('click', () => {
+            settingsPanel.classList.add('hidden');
+        });
+
+        // Save Configurations
+        saveKeyBtn.addEventListener('click', () => {
+            // 1. Save Gemini API key configuration
+            const val = customApiKey.value.trim();
+            userDefinedApiKey = val;
+            if (val) {
+                localStorage.setItem('gemini_api_key', val);
+                updateKeyStatus(true);
+            } else {
+                localStorage.removeItem('gemini_api_key');
+                updateKeyStatus(false);
+            }
+
+            // 2. Save Google Sheets Web App URL configuration
+            const sheetVal = googleSheetsUrl.value.trim();
+            googleSheetsWebAppUrl = sheetVal;
+            if (sheetVal) {
+                localStorage.setItem('google_sheets_url', sheetVal);
+            } else {
+                localStorage.removeItem('google_sheets_url');
+            }
+
+            settingsPanel.classList.add('hidden');
+            showCustomMessageBox("Global Configurations saved successfully!", "success");
+        });
+
+        function updateKeyStatus(active) {
+            if (active) {
+                keyStatusIndicator.classList.remove('bg-amber-500');
+                keyStatusIndicator.classList.add('bg-brand-500');
+            } else {
+                keyStatusIndicator.classList.remove('bg-brand-500');
+                keyStatusIndicator.classList.add('bg-amber-500');
+            }
+        }
+
+        // Dark/Light toggle implementation
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Unit system changes
+        unitMetric.addEventListener('click', () => {
+            if (currentSystem === 'metric') return;
+            currentSystem = 'metric';
+            
+            unitMetric.classList.add('bg-white', 'dark:bg-slate-800', 'shadow', 'text-brand-600', 'dark:text-white');
+            unitMetric.classList.remove('text-slate-500');
+            unitImperial.classList.remove('bg-white', 'dark:bg-slate-800', 'shadow', 'text-brand-600', 'dark:text-white');
+            unitImperial.classList.add('text-slate-500');
+
+            // Conversions of fields
+            const currentWeightLbs = parseFloat(inputWeight.value);
+            inputWeight.value = Math.round(currentWeightLbs / 2.20462);
+            weightUnitText.innerText = 'kg';
+
+            heightMetricWrapper.classList.remove('hidden');
+            heightImperialWrapper.classList.add('hidden');
+            const currentFt = parseInt(inputHeightFt.value) || 0;
+            const currentIn = parseInt(inputHeightIn.value) || 0;
+            const totalInches = (currentFt * 12) + currentIn;
+            inputHeightCm.value = Math.round(totalInches * 2.54);
+
+            const currentWaistIn = parseFloat(inputWaist.value);
+            inputWaist.value = Math.round(currentWaistIn * 2.54);
+            waistUnitText.innerText = 'cm';
+
+            const currentHipIn = parseFloat(inputHip.value);
+            inputHip.value = Math.round(currentHipIn * 2.54);
+            hipUnitText.innerText = 'cm';
+
+            const currentNeckIn = parseFloat(inputNeck.value);
+            inputNeck.value = Math.round(currentNeckIn * 2.54);
+            neckUnitText.innerText = 'cm';
+
+            recalculateHealthSuite();
+        });
+
+        // Imperial system changes
+        unitImperial.addEventListener('click', () => {
+            if (currentSystem === 'imperial') return;
+            currentSystem = 'imperial';
+
+            unitImperial.classList.add('bg-white', 'dark:bg-slate-800', 'shadow', 'text-brand-600', 'dark:text-white');
+            unitImperial.classList.remove('text-slate-500');
+            unitMetric.classList.remove('bg-white', 'dark:bg-slate-800', 'shadow', 'text-brand-600', 'dark:text-white');
+            unitMetric.classList.add('text-slate-500');
+
+            // Conversions of fields
+            const currentWeightKg = parseFloat(inputWeight.value);
+            inputWeight.value = Math.round(currentWeightKg * 2.20462);
+            weightUnitText.innerText = 'lbs';
+
+            heightMetricWrapper.classList.add('hidden');
+            heightImperialWrapper.classList.remove('hidden');
+            const currentCm = parseFloat(inputHeightCm.value);
+            const totalInches = currentCm / 2.54;
+            inputHeightFt.value = Math.floor(totalInches / 12);
+            inputHeightIn.value = Math.round(totalInches % 12);
+
+            const currentWaistCm = parseFloat(inputWaist.value);
+            inputWaist.value = (currentWaistCm / 2.54).toFixed(1);
+            waistUnitText.innerText = 'in';
+
+            const currentHipCm = parseFloat(inputHip.value);
+            inputHip.value = (currentHipCm / 2.54).toFixed(1);
+            hipUnitText.innerText = 'in';
+
+            const currentNeckCm = parseFloat(inputNeck.value);
+            inputNeck.value = (currentNeckCm / 2.54).toFixed(1);
+            neckUnitText.innerText = 'in';
+
+            recalculateHealthSuite();
+        });
+
+        // PAL Tab Event Handlers
+        tabPalQuick.addEventListener('click', () => {
+            if (currentPalCalculationMode === 'quick') return;
+            currentPalCalculationMode = 'quick';
+            tabPalQuick.className = "flex-1 py-1.5 text-center rounded-lg bg-white dark:bg-slate-800 shadow text-slate-800 dark:text-white transition";
+            tabPalDetailed.className = "flex-1 py-1.5 text-center rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition";
+            contentPalQuick.classList.remove('hidden');
+            contentPalDetailed.classList.add('hidden');
+            recalculateHealthSuite();
+        });
+
+        tabPalDetailed.addEventListener('click', () => {
+            if (currentPalCalculationMode === 'detailed') return;
+            currentPalCalculationMode = 'detailed';
+            tabPalDetailed.className = "flex-1 py-1.5 text-center rounded-lg bg-white dark:bg-slate-800 shadow text-slate-800 dark:text-white transition";
+            tabPalQuick.className = "flex-1 py-1.5 text-center rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition";
+            contentPalQuick.classList.add('hidden');
+            contentPalDetailed.classList.remove('hidden');
+            recalculateHealthSuite();
+        });
+
+        // Add input listeners for 24-hour sliders
+        const detailedPalSliders = [hrsSleep, hrsLight, hrsModerate, hrsVigorous];
+        detailedPalSliders.forEach(slider => {
+            slider.addEventListener('input', () => {
+                recalculateHealthSuite();
+            });
+        });
+
+        // Form listeners
+        const interactiveInputs = [
+            inputAge, inputHeightCm, inputHeightFt, inputHeightIn, inputWeight,
+            inputWaist, inputHip, inputNeck, fitnessGoal, subjectNameInput, subjectEmailInput
+        ];
+        interactiveInputs.forEach(elem => {
+            elem.addEventListener('input', recalculateHealthSuite);
+        });
+        fitnessGoal.addEventListener('change', recalculateHealthSuite);
+        
+        // Listen to activity level changes
+        document.querySelectorAll('input[name="activity"]').forEach(radio => {
+            radio.addEventListener('change', recalculateHealthSuite);
+        });
+        document.querySelectorAll('input[name="sex"]').forEach(radio => {
+            radio.addEventListener('change', recalculateHealthSuite);
+        });
+
+        // MET Activity Calculator real-time listeners
+        activityType.addEventListener('change', calculateIndividualActivity);
+        activityDuration.addEventListener('input', calculateIndividualActivity);
+
+        function getActiveWeightInKg() {
+            if (currentSystem === 'metric') {
+                return parseFloat(inputWeight.value) || 70;
+            } else {
+                const lbs = parseFloat(inputWeight.value) || 150;
+                return lbs / 2.20462;
+            }
+        }
+
+        function calculateIndividualActivity() {
+            const met = parseFloat(activityType.value) || 3.5;
+            const duration = parseFloat(activityDuration.value) || 30;
+            const weightKg = getActiveWeightInKg();
+
+            const caloriesBurned = met * weightKg * (duration / 60);
+            sessionBurnValue.innerText = Math.round(caloriesBurned);
+            return Math.round(caloriesBurned);
+        }
+
+        // Add activity log button handler
+        logActivityBtn.addEventListener('click', () => {
+            const metValue = parseFloat(activityType.value);
+            const selectedOpt = activityType.options[activityType.selectedIndex];
+            const name = selectedOpt.getAttribute('data-name');
+            const duration = parseFloat(activityDuration.value) || 30;
+            const calories = calculateIndividualActivity();
+
+            const logItem = {
+                id: Date.now(),
+                name: name,
+                met: metValue,
+                duration: duration,
+                calories: calories
+            };
+
+            exerciseLogs.push(logItem);
+            renderWorkoutLogs();
+            recalculateHealthSuite();
+            showCustomMessageBox(`Logged "${name}" successfully!`, 'success');
+        });
+
+        clearWorkoutLog.addEventListener('click', () => {
+            exerciseLogs = [];
+            renderWorkoutLogs();
+            recalculateHealthSuite();
+            showCustomMessageBox("Cleared all workouts for today.", "success");
+        });
+
+        function renderWorkoutLogs() {
+            if (exerciseLogs.length === 0) {
+                loggedActivitiesContainer.innerHTML = `<p class="text-xs text-slate-400 text-center italic py-4">No exercises logged for today yet.</p>`;
+                totalActiveBurnVal.innerText = "0";
+                return;
+            }
+
+            loggedActivitiesContainer.innerHTML = "";
+            let totalBurn = 0;
+
+            exerciseLogs.forEach(log => {
+                totalBurn += log.calories;
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300";
+                div.innerHTML = `
+                    <div class="flex-1 pr-3">
+                        <span class="font-bold text-slate-800 dark:text-slate-100 block">${log.name}</span>
+                        <span class="text-[10px] text-slate-400 font-medium">${log.duration} mins &bull; ${log.met} METs</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-extrabold text-accent-600 dark:text-accent-400">${log.calories} kcal</span>
+                        <button onclick="removeWorkoutLog(${log.id})" class="text-slate-400 hover:text-red-500 transition" title="Remove Activity">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                loggedActivitiesContainer.appendChild(div);
+            });
+
+            totalActiveBurnVal.innerText = totalBurn;
+            lucide.createIcons();
+        }
+
+        function removeWorkoutLog(id) {
+            exerciseLogs = exerciseLogs.filter(log => log.id !== id);
+            renderWorkoutLogs();
+            recalculateHealthSuite();
+        }
+
+        // Central Calculation Engine
+        function recalculateHealthSuite() {
+            const sex = document.querySelector('input[name="sex"]:checked').value;
+            const age = parseInt(inputAge.value) || 25;
+            const goal = fitnessGoal.value;
+
+            // Fetch dynamic or estimated PAL
+            let pal = 1.375;
+            if (currentPalCalculationMode === 'quick') {
+                pal = parseFloat(document.querySelector('input[name="activity"]:checked').value) || 1.2;
+                activePalBadge.innerText = `CALCULATED PAL: ${pal.toFixed(3)}`;
+            } else {
+                // FAO/WHO Detailed Time Allocation Calculations
+                const sleepHours = parseFloat(hrsSleep.value) || 0;
+                const lightHours = parseFloat(hrsLight.value) || 0;
+                const moderateHours = parseFloat(hrsModerate.value) || 0;
+                const vigorousHours = parseFloat(hrsVigorous.value) || 0;
+
+                const totalHoursAllocated = sleepHours + lightHours + moderateHours + vigorousHours;
+
+                // Update UI Labels live
+                document.getElementById('labelHrsSleep').innerText = `${sleepHours} hrs`;
+                document.getElementById('labelHrsLight').innerText = `${lightHours} hrs`;
+                document.getElementById('labelHrsModerate').innerText = `${moderateHours} hrs`;
+                document.getElementById('labelHrsVigorous').innerText = `${vigorousHours} hrs`;
+
+                hoursAllocatedBadge.innerText = `${totalHoursAllocated} / 24 hrs`;
+
+                // Handle 24-hour allocation limits validation
+                if (totalHoursAllocated !== 24) {
+                    palHoursWarning.classList.remove('hidden');
+                    hoursAllocatedBadge.className = "px-2 py-0.5 rounded font-black bg-rose-500/10 text-rose-600 border border-rose-500/20 animate-pulse";
+                    if (totalHoursAllocated > 24) {
+                        palHoursWarningText.innerText = `Hours exceeded standard 24h limit. Total: ${totalHoursAllocated} hrs. Please decrease.`;
+                    } else {
+                        palHoursWarningText.innerText = `Hours allocated are less than 24h. Total: ${totalHoursAllocated} hrs. Please increase.`;
+                    }
+                } else {
+                    palHoursWarning.classList.add('hidden');
+                    hoursAllocatedBadge.className = "px-2 py-0.5 rounded font-black bg-brand-500/10 text-brand-600 border border-brand-500/20";
+                }
+
+                // Weighted mean formula: FAO/WHO Expert Report Technical Guidelines
+                // Sleep PAR = 1.0, Light/Sedentary PAR = 1.4, Moderate PAR = 2.2, Vigorous PAR = 6.0
+                pal = ((sleepHours * 1.0) + (lightHours * 1.4) + (moderateHours * 2.2) + (vigorousHours * 6.0)) / 24;
+                activePalBadge.innerText = `CALCULATED PAL: ${pal.toFixed(3)}`;
+            }
+
+            let weightKg = getActiveWeightInKg();
+            let heightCm = 0;
+            let waistCm = 0;
+            let hipCm = 0;
+            let neckCm = 0;
+
+            if (currentSystem === 'metric') {
+                heightCm = parseFloat(inputHeightCm.value) || 170;
+                waistCm = parseFloat(inputWaist.value) || 80;
+                hipCm = parseFloat(inputHip.value) || 90;
+                neckCm = parseFloat(inputNeck.value) || 38;
+            } else {
+                const ft = parseInt(inputHeightFt.value) || 5;
+                const inch = parseInt(inputHeightIn.value) || 7;
+                heightCm = ((ft * 12) + inch) * 2.54;
+
+                const waistIn = parseFloat(inputWaist.value) || 30;
+                const hipIn = parseFloat(inputHip.value) || 35;
+                const neckIn = parseFloat(inputNeck.value) || 15;
+                waistCm = waistIn * 2.54;
+                hipCm = hipIn * 2.54;
+                neckCm = neckIn * 2.54;
+            }
+
+            // Sync placeholders and inputs visually
+            waistUnitText.innerText = currentSystem === 'metric' ? 'cm' : 'in';
+            hipUnitText.innerText = currentSystem === 'metric' ? 'cm' : 'in';
+            neckUnitText.innerText = currentSystem === 'metric' ? 'cm' : 'in';
+
+            // Calculations update real-time MET burn box automatically
+            calculateIndividualActivity();
+
+            // --- CALCULATOR 1: OBESITY / BMI & WHR/WHtR ---
+            const heightMeters = heightCm / 100;
+            const bmi = weightKg / (heightMeters * heightMeters);
+            
+            let bmiClassification = "Normal";
+            let bmiColorClass = "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400";
+            let bmiRisk = "Minimal risk";
+            
+            if (bmi < 18.5) {
+                bmiClassification = "Underweight";
+                bmiColorClass = "bg-sky-100 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400";
+                bmiRisk = "Low risk of chronic disease, high risk of nutritional deficiency";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                bmiClassification = "Normal";
+                bmiColorClass = "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400";
+                bmiRisk = "Optimal physical baseline health";
+            } else if (bmi >= 25 && bmi < 30) {
+                bmiClassification = "Over-weight";
+                bmiColorClass = "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400";
+                bmiRisk = "Elevated cardiovascular and metabolic risks";
+            } else if (bmi >= 30 && bmi < 35) {
+                bmiClassification = "Obesity Type 1";
+                bmiColorClass = "bg-orange-100 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400";
+                bmiRisk = "Moderate hazard for type 2 diabetes and hypertension";
+            } else if (bmi >= 35 && bmi < 40) {
+                bmiClassification = "Obesity Type 2";
+                bmiColorClass = "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400";
+                bmiRisk = "Severe hazard. Medical intervention strongly recommended";
+            } else {
+                bmiClassification = "Obesity Type 3";
+                bmiColorClass = "bg-rose-200 text-rose-800 dark:bg-rose-950/50 dark:text-rose-400";
+                bmiRisk = "Critical danger level";
+            }
+
+            bmiClassBadge.innerText = bmiClassification;
+            bmiClassBadge.className = `px-2.5 py-1 text-xs font-bold rounded-lg ${bmiColorClass}`;
+            bmiNumber.innerText = bmi.toFixed(1);
+
+            let angle = -90;
+            if (bmi <= 15) {
+                angle = -90;
+            } else if (bmi >= 40) {
+                angle = 90;
+            } else {
+                const pct = (bmi - 15) / (40 - 15);
+                angle = -90 + (pct * 180);
+            }
+            gaugePointer.style.transform = `rotate(${angle}deg)`;
+
+            const whr = waistCm / hipCm;
+            whrNumber.innerText = whr.toFixed(2);
+            let whrClassification = "Low Risk";
+            let whrColorClass = "text-green-600 dark:text-green-400";
+
+            if (sex === 'male') {
+                if (whr >= 0.9 && whr < 1.0) {
+                    whrClassification = "Moderate Risk";
+                    whrColorClass = "text-orange-600 dark:text-orange-400";
+                } else if (whr >= 1.0) {
+                    whrClassification = "High Risk Obesity";
+                    whrColorClass = "text-red-600 dark:text-red-400";
+                }
+            } else {
+                if (whr >= 0.8 && whr < 0.85) {
+                    whrClassification = "Moderate Risk";
+                    whrColorClass = "text-orange-600 dark:text-orange-400";
+                } else if (whr >= 0.85) {
+                    whrClassification = "High Risk Obesity";
+                    whrColorClass = "text-red-600 dark:text-red-400";
+                }
+            }
+            whrRiskBadge.innerText = whrClassification;
+            whrRiskBadge.className = `text-[10px] font-bold ${whrColorClass} uppercase`;
+
+            const whtr = waistCm / heightCm;
+            whtrNumber.innerText = whtr.toFixed(2);
+            let whtrClassification = "Healthy Shape";
+            let whtrColorClass = "text-green-600 dark:text-green-400";
+
+            if (whtr >= 0.5 && whtr < 0.6) {
+                whtrClassification = "Overly Centered Fat";
+                whtrColorClass = "text-orange-600 dark:text-orange-400";
+            } else if (whtr >= 0.6) {
+                whtrClassification = "Extremely Centered Obesity";
+                whtrColorClass = "text-red-600 dark:text-red-400";
+            }
+            whtrRiskBadge.innerText = whtrClassification;
+            whtrRiskBadge.className = `text-[10px] font-bold ${whtrColorClass} uppercase`;
+
+            // --- CALCULATOR 2: ADIPOSITY SHAPE (AS) INDEX ---
+            const waistVal = parseFloat(inputWaist.value) || 0;
+            const hipVal = parseFloat(inputHip.value) || 0;
+            const asIndex = hipVal - waistVal;
+            const asUnit = currentSystem === 'metric' ? 'cm' : 'in';
+
+            document.getElementById('asIndexVal').innerText = asIndex.toFixed(1);
+            document.getElementById('asIndexUnit').innerText = asUnit;
+
+            // Strict metric conversion for clinical standard interpretation (0-5, 8+)
+            const waistCmValue = currentSystem === 'metric' ? waistVal : waistVal * 2.54;
+            const hipCmValue = currentSystem === 'metric' ? hipVal : hipVal * 2.54;
+            const neckCmValue = currentSystem === 'metric' ? parseFloat(inputNeck.value) : parseFloat(inputNeck.value) * 2.54;
+            const asIndexCm = hipCmValue - waistCmValue;
+
+            let asClass = "Intermediate Shape";
+            let asClassStyle = "bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300";
+
+            if (asIndexCm < 0) {
+                asClass = "Android Obesity";
+                asClassStyle = "bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-300";
+            } else if (asIndexCm >= 0 && asIndexCm <= 5) {
+                asClass = "Barrel Shaped Obesity";
+                asClassStyle = "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300";
+            } else if (asIndexCm > 5 && asIndexCm < 8) {
+                asClass = "Intermediate Shape";
+                asClassStyle = "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300";
+            } else if (asIndexCm >= 8) {
+                asClass = "Gynoid Obesity";
+                asClassStyle = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300";
+            }
+
+            const asBadge = document.getElementById('asIndexClassBadge');
+            asBadge.innerText = asClass;
+            asBadge.className = `px-2 py-0.5 text-[10px] font-bold rounded ${asClassStyle}`;
+
+            // --- CALCULATOR 3: BODY FAT PERCENTAGE (U.S. Navy Method) ---
+            let bodyFatPct = 0;
+            const heightInches = heightCm / 2.54;
+            const waistInches = waistCmValue / 2.54;
+            const hipInches = hipCmValue / 2.54;
+            const neckInches = neckCmValue / 2.54;
+
+            if (sex === 'male') {
+                if (waistInches > neckInches) {
+                    bodyFatPct = 86.010 * Math.log10(waistInches - neckInches) - 70.041 * Math.log10(heightInches) + 36.76;
+                } else {
+                    bodyFatPct = (1.20 * bmi) + (0.23 * age) - 16.2 - 5.4;
+                }
+            } else {
+                if ((waistInches + hipInches) > neckInches) {
+                    bodyFatPct = 161.278 * Math.log10(waistInches + hipInches - neckInches) - 138.742 * Math.log10(heightInches) + 22.09;
+                } else {
+                    bodyFatPct = (1.20 * bmi) + (0.23 * age) - 5.4;
+                }
+            }
+
+            if (bodyFatPct < 2) bodyFatPct = 2;
+            if (bodyFatPct > 60) bodyFatPct = 60;
+
+            let fatClassification = "Acceptable";
+            let fatClassStyle = "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400";
+            
+            if (sex === 'male') {
+                if (bodyFatPct >= 2 && bodyFatPct <= 5) {
+                    fatClassification = "Essential Fat";
+                    fatClassStyle = "bg-sky-100 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400";
+                } else if (bodyFatPct > 5 && bodyFatPct <= 13) {
+                    fatClassification = "Athletes";
+                    fatClassStyle = "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400";
+                } else if (bodyFatPct > 13 && bodyFatPct <= 17) {
+                    fatClassification = "Fitness";
+                    fatClassStyle = "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400";
+                } else if (bodyFatPct > 17 && bodyFatPct <= 24) {
+                    fatClassification = "Acceptable";
+                    fatClassStyle = "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400";
+                } else if (bodyFatPct > 24) {
+                    fatClassification = "Obese";
+                    fatClassStyle = "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400";
+                }
+            } else {
+                if (bodyFatPct >= 10 && bodyFatPct <= 13) {
+                    fatClassification = "Essential Fat";
+                    fatClassStyle = "bg-sky-100 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400";
+                } else if (bodyFatPct > 13 && bodyFatPct <= 20) {
+                    fatClassification = "Athletes";
+                    fatClassStyle = "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400";
+                } else if (bodyFatPct > 20 && bodyFatPct <= 24) {
+                    fatClassification = "Fitness";
+                    fatClassStyle = "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400";
+                } else if (bodyFatPct > 24 && bodyFatPct <= 31) {
+                    fatClassification = "Acceptable";
+                    fatClassStyle = "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400";
+                } else if (bodyFatPct > 31) {
+                    fatClassification = "Obese";
+                    fatClassStyle = "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400";
+                }
+            }
+
+            const fatMassKg = weightKg * (bodyFatPct / 100);
+            const leanMassKg = weightKg - fatMassKg;
+
+            bodyFatClassBadge.innerText = fatClassification;
+            bodyFatClassBadge.className = `px-2.5 py-1 text-xs font-bold rounded-lg ${fatClassStyle}`;
+            bodyFatPctVal.innerText = `${bodyFatPct.toFixed(1)}%`;
+
+            if (currentSystem === 'metric') {
+                leanBodyMassVal.innerText = `${leanMassKg.toFixed(1)} kg`;
+                leanMassWeightText.innerText = `${leanMassKg.toFixed(1)} kg`;
+                fatMassWeightText.innerText = `${fatMassKg.toFixed(1)} kg`;
+            } else {
+                const leanMassLbs = leanMassKg * 2.20462;
+                const fatMassLbs = fatMassKg * 2.20462;
+                leanBodyMassVal.innerText = `${leanMassLbs.toFixed(1)} lbs`;
+                leanMassWeightText.innerText = `${leanMassLbs.toFixed(1)} lbs`;
+                fatMassWeightText.innerText = `${fatMassLbs.toFixed(1)} lbs`;
+            }
+
+            const leanPercentage = 100 - bodyFatPct;
+            leanMassBar.style.width = `${leanPercentage}%`;
+            fatMassBar.style.width = `${bodyFatPct}%`;
+
+            // --- CALCULATOR 4: NUTRITION & BMR ---
+            let bmr = 0;
+            if (sex === 'male') {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+            }
+
+            const katchMcArdleBmr = 370 + (21.6 * leanMassKg);
+            if (bodyFatPct > (sex === 'male' ? 25 : 32)) {
+                bmr = katchMcArdleBmr;
+            }
+
+            const totalActiveBurn = exerciseLogs.reduce((acc, item) => acc + item.calories, 0);
+            const tdee = (bmr * pal) + totalActiveBurn;
+
+            let calorieGoal = tdee;
+            let goalDescription = "Balanced Maintenance";
+
+            switch (goal) {
+                case 'weight_loss':
+                    calorieGoal = tdee - 500;
+                    if (calorieGoal < 1200 && sex === 'female') calorieGoal = 1200;
+                    if (calorieGoal < 1500 && sex === 'male') calorieGoal = 1500;
+                    goalDescription = "Sustainable Weight Loss";
+                    break;
+                case 'muscle_gain':
+                    calorieGoal = tdee + 300;
+                    goalDescription = "Lean Muscle Gain";
+                    break;
+                case 'low_carb':
+                    calorieGoal = tdee - 200;
+                    goalDescription = "Low-Carb Nutrition";
+                    break;
+                case 'ketogenic':
+                    calorieGoal = tdee - 300;
+                    goalDescription = "Keto-Adaptation";
+                    break;
+            }
+
+            bmrValue.innerText = Math.round(bmr).toLocaleString();
+            tdeeValue.innerText = Math.round(tdee).toLocaleString();
+            targetCalories.innerText = Math.round(calorieGoal).toLocaleString();
+            selectedGoalLabel.innerText = goalDescription;
+
+            // --- CALCULATOR 5: MACRONUTRIENT DISTRIBUTION ---
+            let pPct = 25, cPct = 45, fPct = 30;
+
+            if (goal === 'weight_loss') {
+                pPct = 30; cPct = 40; fPct = 30;
+            } else if (goal === 'muscle_gain') {
+                pPct = 30; cPct = 50; fPct = 20;
+            } else if (goal === 'low_carb') {
+                pPct = 35; cPct = 20; fPct = 45;
+            } else if (goal === 'ketogenic') {
+                pPct = 20; cPct = 5; fPct = 75;
+            }
+
+            const pKcal = calorieGoal * (pPct / 100);
+            const cKcal = calorieGoal * (cPct / 100);
+            const fKcal = calorieGoal * (fPct / 100);
+
+            const pGrams = pKcal / 4;
+            const cGrams = cKcal / 4;
+            const fGrams = fKcal / 9;
+
+            proteinSplitText.innerText = `${Math.round(pGrams)}g / ${Math.round(pKcal)} kcal (${pPct}%)`;
+            proteinProgress.style.width = `${pPct}%`;
+
+            carbSplitText.innerText = `${Math.round(cGrams)}g / ${Math.round(cKcal)} kcal (${cPct}%)`;
+            carbProgress.style.width = `${cPct}%`;
+
+            fatSplitText.innerText = `${Math.round(fGrams)}g / ${Math.round(fKcal)} kcal (${fPct}%)`;
+            fatProgress.style.width = `${fPct}%`;
+
+            calculationsCache = {
+                subjectName: subjectNameInput.value.trim() || "John Doe",
+                subjectEmail: subjectEmailInput.value.trim() || "johndoe@example.com",
+                sex: sex,
+                age: age,
+                height: heightCm.toFixed(1) + " cm",
+                weight: weightKg.toFixed(1) + " kg",
+                bmi: bmi.toFixed(1),
+                bmiClass: bmiClassification,
+                whr: whr.toFixed(2),
+                whrClass: whrClassification,
+                whtr: whtr.toFixed(2),
+                whtrClass: whtrClassification,
+                asIndex: asIndex.toFixed(1) + " " + asUnit,
+                asIndexClassification: asClass,
+                bodyFatPercentage: bodyFatPct.toFixed(1) + "%",
+                bodyFatClassification: fatClassification,
+                leanBodyMass: leanMassKg.toFixed(1) + " kg",
+                fatMass: fatMassKg.toFixed(1) + " kg",
+                bmr: Math.round(bmr) + " kcal",
+                tdee: Math.round(tdee) + " kcal",
+                calorieGoal: Math.round(calorieGoal) + " kcal",
+                goal: goalDescription,
+                activity: document.querySelector('input[name="activity"]:checked')?.parentElement?.querySelector('.font-bold')?.innerText || "Detailed Allocation",
+                palValue: pal.toFixed(3),
+                loggedActiveBurn: totalActiveBurn + " kcal",
+                loggedWorkouts: exerciseLogs.map(w => `${w.name} (${w.duration} mins, ${w.calories} kcal)`),
+                macros: {
+                    protein: `${Math.round(pGrams)}g (${pPct}%)`,
+                    carbs: `${Math.round(cGrams)}g (${cPct}%)`,
+                    fats: `${Math.round(fGrams)}g (${fPct}%)`
+                }
+            };
+        }
+
+        // --- GEMINI 2.5 FLASH RETRY & BACKOFF LOGIC ---
+        async function fetchGeminiWithBackoff(prompt, sysInstruction = "") {
+            let activeApiKey = userDefinedApiKey || apiKey;
+            
+            if (!activeApiKey) {
+                activeApiKey = promptUserForKey();
+                if (!activeApiKey) {
+                    throw new Error("API Key is missing. Please click the settings icon at the top right to configure your Gemini API Key.");
+                }
+            }
+
+            // DYNAMIC RESOLUTION: Use globally stable 'gemini-2.5-flash' for custom developer keys,
+            // and keep internal 'gemini-2.5-flash-preview-09-2025' for system injected calls.
+            const modelName = userDefinedApiKey ? "gemini-2.5-flash" : "gemini-2.5-flash-preview-09-2025";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+
+            if (sysInstruction) {
+                payload.systemInstruction = {
+                    parts: [{ text: sysInstruction }]
+                };
+            }
+
+            let delay = 1000;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const json = await response.json();
+                        const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (!text) throw new Error("No text content returned from model.");
+                        return text;
+                    }
+
+                    if (response.status === 429 || response.status >= 500) {
+                        // Exponential backoff retry
+                    } else {
+                        const errText = await response.text();
+                        throw new Error(`Gemini Error (${response.status}): ${errText}`);
+                    }
+                } catch (err) {
+                    if (i === 4) throw err;
+                }
+
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+            throw new Error("Request failed after 5 retries");
+        }
+
+        function promptUserForKey() {
+            settingsPanel.classList.remove('hidden');
+            customApiKey.focus();
+            return "";
+        }
+
+        // --- GENERATE PLAN TRIGGER ---
+        generatePlanBtn.addEventListener('click', async () => {
+            generatePlanBtn.classList.add('hidden');
+            aiLoader.classList.remove('hidden');
+            aiOutputContainer.classList.add('hidden');
+
+            const healthDataStr = JSON.stringify(calculationsCache, null, 2);
+            
+            const prompt = `Analyze the following calculated clinical, body composition, active workout log, and bio-nutritional data:
+${healthDataStr}
+
+Please generate an expert, comprehensive, and scientifically grounded wellness strategy including:
+1. Medical/Obesity Risk & Body Composition Analysis: Assess BMI (using our classifications: Underweight, Normal, Over-weight, Obesity Type 1, Obesity Type 2, Obesity Type 3), AS Index (Adiposity Shape Index), Body Fat Percentage (categorized using ACE guidelines), Lean Body Mass vs Fat Mass distribution, and corresponding waist ratios. Also evaluate the user's calculated Physical Activity Level (PAL) value. Give a realistic medical explanation.
+2. 7-Day Meal Strategy Outline: High level distribution of food groups matching the target macros and accommodating logged exercises and lean muscle preservation targets.
+3. Workout & Dynamic Movement Schedule: Integrate details from their current Logged Workouts and overall goal.
+4. Professional Health & Accountability Advice.
+
+Format your response using beautifully spaced Markdown with bold headers and clean lists so it renders perfectly on the dashboard. Keep it highly personalized, encouraging, and clear.`;
+
+            const systemPrompt = "You are an elite, double-certified Clinical Dietitian, Exercise Physiologist, and Metabolic Expert. You use exact science, avoid fad diets, and formulate structured, customized plans.";
+
+            try {
+                const markdownText = await fetchGeminiWithBackoff(prompt, systemPrompt);
+                generatedAiPlanRaw = markdownText;
+                aiPlanOutput.innerHTML = parseMarkdownToHTML(markdownText);
+                aiOutputContainer.classList.remove('hidden');
+                generatePlanBtn.innerText = "Regenerate Strategy";
+            } catch (err) {
+                showCustomMessageBox(`Could not generate plan: ${err.message}`, 'error');
+            } finally {
+                aiLoader.classList.add('hidden');
+                generatePlanBtn.classList.remove('hidden');
+            }
+        });
+
+        // --- GOOGLE SHEETS POST SCRIPT SYNC ---
+        async function syncToGoogleSheets(payload) {
+            if (!googleSheetsWebAppUrl) return; // Silent return if not linked
+
+            try {
+                // Perform simple JSON POST request to Web App macro script
+                const response = await fetch(googleSheetsWebAppUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // standard workaround for Google CORS macro limitations
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                showCustomMessageBox("Diagnostics synced to Google Sheet successfully!", "success");
+            } catch (e) {
+                console.error("Sheets integration sync failed:", e);
+                showCustomMessageBox("Subject saved locally, but failed to sync to Google Sheet.", "error");
+            }
+        }
+
+        // --- SUBJECT PERSISTENCE DATABASE CONTROLLER ---
+        saveSubjectBtn.addEventListener('click', async () => {
+            recalculateHealthSuite(); // sync state
+
+            const name = subjectNameInput.value.trim();
+            const email = subjectEmailInput.value.trim();
+
+            if (!name || !email) {
+                showCustomMessageBox("Subject Name and Email ID are mandatory to register records.", "error");
+                return;
+            }
+
+            const targetSystem = currentSystem;
+            const targetGender = document.querySelector('input[name="sex"]:checked').value;
+            const currentAge = parseInt(inputAge.value) || 25;
+
+            // Compile complete diagnostic state including detailed PAL inputs
+            const payload = {
+                subjectName: name,
+                subjectEmail: email,
+                system: targetSystem,
+                sex: targetGender,
+                age: currentAge,
+                goal: fitnessGoal.value,
+                palMode: currentPalCalculationMode,
+                pal: parseFloat(calculationsCache.palValue),
+                // Detailed PAL allocation states
+                palHrsSleep: parseFloat(hrsSleep.value),
+                palHrsLight: parseFloat(hrsLight.value),
+                palHrsModerate: parseFloat(hrsModerate.value),
+                palHrsVigorous: parseFloat(hrsVigorous.value),
+                // Core physical configurations
+                weight: parseFloat(inputWeight.value) || 70,
+                waist: parseFloat(inputWaist.value) || 80,
+                hip: parseFloat(inputHip.value) || 90,
+                neck: parseFloat(inputNeck.value) || 38,
+                heightCm: parseFloat(inputHeightCm.value) || 170,
+                heightFt: parseInt(inputHeightFt.value) || 5,
+                heightIn: parseInt(inputHeightIn.value) || 7,
+                exerciseLogs: exerciseLogs,
+                calculations: calculationsCache,
+                updatedAt: isFirebaseActive ? serverTimestamp() : Date.now()
+            };
+
+            // 1. Sync to Firestore Cloud if active
+            if (isFirebaseActive) {
+                try {
+                    const escapedEmailId = email.toLowerCase().replace(/[^a-z0-9]/gi, '_');
+                    const subjectDocRef = doc(firestoreInstance, 'artifacts', appIdValue, 'public', 'data', 'subjects', escapedEmailId);
+                    
+                    await setDoc(subjectDocRef, payload);
+                    showCustomMessageBox(`Securely saved profile for ${name} to Cloud Directory.`, "success");
+                } catch (e) {
+                    showCustomMessageBox(`Failed to sync to Cloud Database: ${e.message}`, "error");
+                }
+            } else {
+                // Fallback to local session persistence
+                const index = localSubjectsRegistry.findIndex(s => s.subjectEmail.toLowerCase() === email.toLowerCase());
+                if (index > -1) {
+                    localSubjectsRegistry[index] = { id: email.toLowerCase(), ...payload };
+                } else {
+                    localSubjectsRegistry.push({ id: email.toLowerCase(), ...payload });
+                }
+                renderSubjectsRegistry();
+                showCustomMessageBox(`Saved profile for ${name} in Local Session Memory.`, "success");
+            }
+
+            // 2. Stream and Sync to Google Sheet if Web App URL is present
+            if (googleSheetsWebAppUrl) {
+                await syncToGoogleSheets(payload);
+            }
+        });
+
+        // Registry Search Listener
+        searchRegistry.addEventListener('input', (e) => {
+            registryFilterQuery = e.target.value.trim().toLowerCase();
+            renderSubjectsRegistry();
+        });
+
+        function renderSubjectsRegistry() {
+            if (localSubjectsRegistry.length === 0) {
+                registryTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-8 text-slate-400 italic">No clinical subjects currently saved. Click "Save / Update Current Subject" above.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const filteredList = localSubjectsRegistry.filter(sub => {
+                return sub.subjectName.toLowerCase().includes(registryFilterQuery) || 
+                       sub.subjectEmail.toLowerCase().includes(registryFilterQuery);
+            });
+
+            if (filteredList.length === 0) {
+                registryTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-8 text-slate-400 italic">No saved subjects match your search queries.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            registryTableBody.innerHTML = "";
+            filteredList.forEach(sub => {
+                const calc = sub.calculations || {};
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-900 transition text-[11px]";
+                
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100 text-left">
+                        <span class="block">${sub.subjectName}</span>
+                        <span class="text-[9px] text-slate-400 font-normal block">${sub.subjectEmail}</span>
+                    </td>
+                    <td class="py-3 px-4 capitalize font-semibold">${sub.sex} / ${sub.age} yrs</td>
+                    <td class="py-3 px-4 font-extrabold text-slate-700 dark:text-slate-200">
+                        <span>${calc.bmi || 'N/A'}</span>
+                        <span class="text-[9px] font-normal block text-slate-400">${calc.bmiClass || 'N/A'}</span>
+                    </td>
+                    <td class="py-3 px-4 font-extrabold text-purple-600 dark:text-purple-400">${calc.bodyFatPercentage || 'N/A'}</td>
+                    <td class="py-3 px-4 font-semibold text-brand-600 dark:text-brand-400">${calc.asIndexClassification || 'N/A'}</td>
+                    <td class="py-3 px-4 font-medium max-w-[120px] truncate" title="${calc.goal || 'N/A'}">${calc.goal || 'N/A'}</td>
+                    <td class="py-3 px-4 font-extrabold text-indigo-600 dark:text-indigo-400">${calc.calorieGoal || 'N/A'}</td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="loadSubjectProfile('${sub.id}')" class="p-1.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition" title="Recall Subject Diagnostics">
+                                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <div class="flex gap-1 border border-slate-200 dark:border-slate-800 rounded-lg p-0.5 bg-slate-50 dark:bg-slate-950">
+                                <button onclick="downloadSubjectImage('${sub.id}', 'en')" class="px-1 text-[9px] font-black text-slate-500 hover:text-indigo-600 transition uppercase" title="Download Report EN Image">
+                                    EN
+                                </button>
+                                <span class="text-slate-300">|</span>
+                                <button onclick="downloadSubjectImage('${sub.id}', 'ar')" class="px-1 py-0.5 bg-purple-500 hover:bg-purple-600 text-white rounded text-[9px] font-bold transition" title="تحميل التقرير كصورة عربية">
+                                    AR
+                                </button>
+                            </div>
+                            <button onclick="deleteSubjectProfile('${sub.id}')" class="p-1.5 bg-red-100 hover:bg-red-200 text-red-600 dark:bg-red-950/40 dark:text-red-400 rounded-lg transition" title="Delete Profile">
+                                <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                registryTableBody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        // Action: Load clinical profile back to interactive inputs
+        async function loadSubjectProfile(id) {
+            const profile = localSubjectsRegistry.find(sub => sub.id === id);
+            if (!profile) return;
+
+            // Trigger unit configuration first
+            if (profile.system !== currentSystem) {
+                if (profile.system === 'metric') {
+                    unitMetric.click();
+                } else {
+                    unitImperial.click();
+                }
+            }
+
+            // Sync inputs securely
+            subjectNameInput.value = profile.subjectName;
+            subjectEmailInput.value = profile.subjectEmail;
+            inputAge.value = profile.age;
+            fitnessGoal.value = profile.goal;
+
+            // Radio Gender
+            document.querySelectorAll('input[name="sex"]').forEach(radio => {
+                radio.checked = (radio.value === profile.sex);
+            });
+
+            // Height and Weights
+            if (profile.system === 'metric') {
+                inputHeightCm.value = profile.heightCm;
+            } else {
+                inputHeightFt.value = profile.heightFt;
+                inputHeightIn.value = profile.heightIn;
+            }
+            inputWeight.value = profile.weight;
+            inputWaist.value = profile.waist;
+            inputHip.value = profile.hip;
+            inputNeck.value = profile.neck;
+
+            // Handle PAL mode switching and restoration
+            if (profile.palMode === 'detailed') {
+                hrsSleep.value = profile.palHrsSleep || 8;
+                hrsLight.value = profile.palHrsLight || 10;
+                hrsModerate.value = profile.palHrsModerate || 5;
+                hrsVigorous.value = profile.palHrsVigorous || 1;
+                tabPalDetailed.click();
+            } else {
+                document.querySelectorAll('input[name="activity"]').forEach(radio => {
+                    radio.checked = (parseFloat(radio.value) === profile.pal);
+                });
+                tabPalQuick.click();
+            }
+
+            // Workout logs
+            exerciseLogs = profile.exerciseLogs || [];
+            renderWorkoutLogs();
+
+            recalculateHealthSuite();
+            showCustomMessageBox(`Diagnostic measurements for ${profile.subjectName} successfully loaded.`, "success");
+        }
+
+        // Action: Delete subject profile record
+        async function deleteSubjectProfile(id) {
+            const item = localSubjectsRegistry.find(s => s.id === id);
+            const label = item ? item.subjectName : "Subject";
+
+            if (isFirebaseActive) {
+                try {
+                    const subjectDocRef = doc(firestoreInstance, 'artifacts', appIdValue, 'public', 'data', 'subjects', id);
+                    await deleteDoc(subjectDocRef);
+                    showCustomMessageBox(`Deleted ${label} from Cloud Directory.`, "success");
+                } catch (e) {
+                    showCustomMessageBox(`Failed to delete record: ${e.message}`, "error");
+                }
+            } else {
+                localSubjectsRegistry = localSubjectsRegistry.filter(s => s.id !== id);
+                renderSubjectsRegistry();
+                showCustomMessageBox(`Deleted ${label} from Local Session memory.`, "success");
+            }
+        }
+
+        // Action: Compile individual subject report on-the-fly and download as a formatted PNG Image (Arabic or English)
+        function downloadSubjectImage(id, langCode = 'ar') {
+            const profile = localSubjectsRegistry.find(sub => sub.id === id);
+            if (!profile) return;
+
+            const calc = profile.calculations || {};
+            const leanMassKgVal = parseFloat(calc.leanBodyMass) || 0;
+            const fatMassKgVal = parseFloat(calc.fatMass) || 0;
+
+            const printElement = document.createElement('div');
+            printElement.style.padding = "35px";
+            printElement.style.backgroundColor = "#ffffff";
+            printElement.style.color = "#0f172a";
+            printElement.style.width = "720px"; // Ensure perfect standard A4 fit
+            printElement.style.boxSizing = "border-box";
+            
+            // Apply language layout direction
+            const isAr = (langCode === 'ar');
+            printElement.dir = isAr ? "rtl" : "ltr";
+            printElement.style.textAlign = isAr ? "right" : "left";
+
+            const generatedDate = new Date().toLocaleDateString(isAr ? 'ar-EG' : 'en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            // Dictionary mappings for complete translations
+            const dictionary = {
+                ar: {
+                    title: "ملخص تقرير الذكاء الصحي والتحليل البدني",
+                    subtitle: "تقرير فيزيولوجي رقمي متكامل",
+                    suite: "مجموعة الذكاء الصحي",
+                    dateLabel: "تاريخ التقرير",
+                    sec1: "أولاً: بيانات الخاضع للفحص",
+                    nameLabel: "اسم الخاضع للفحص:",
+                    emailLabel: "البريد الإلكتروني:",
+                    sexLabel: "الجنس البيولوجي:",
+                    ageLabel: "العمر:",
+                    heightLabel: "الطول:",
+                    weightLabel: "الوزن:",
+                    sec2: "ثانياً: مؤشرات السمنة وتركيب الجسم",
+                    thMetric: "المؤشر الفيزيولوجي",
+                    thValue: "القيمة المسجلة",
+                    thClass: "التصنيف والمخاطر",
+                    bmiLabel: "مؤشر كتلة الجسم (BMI)",
+                    fatPctLabel: "نسبة الدهون بالجسم",
+                    whrLabel: "نسبة الخصر إلى الورك (WHR)",
+                    whtrLabel: "نسبة الخصر إلى الطول (WHtR)",
+                    asIndexLabel: "مؤشر شكل السمنة (AS Index)",
+                    lbmLabel: "الكتلة العضلية الخالية من الدهون:",
+                    fatLabel: "كتلة الدهون المخزنة:",
+                    sec3: "ثالثاً: معدل الأيض والاحتياج اليومي",
+                    sec4: "رابعاً: توزيع المغذيات الكبرى",
+                    bmr: "BMR (معدل الأيض الأساسي):",
+                    tdee: "TDEE (معدل الحرق اليومي):",
+                    calorieGoal: "السعرات المستهدفة:",
+                    protein: "البروتين المستهدف:",
+                    carbs: "الكربوهيدرات المستهدفة:",
+                    fats: "الدهون الصحية:",
+                    sec5: "خامساً: السجل الرياضي ومعدل النشاط (PAL)",
+                    palLabel: "قيمة مستوى النشاط البدني (PAL):",
+                    palModelDetailed: "نموذج منظمة الصحة العالمية 24 ساعة",
+                    palModelQuick: "تقدير سريع",
+                    noExercises: "لا توجد تمارين رياضية مسجلة لهذا اليوم.",
+                    exerciseMins: "دقيقة",
+                    exerciseBurn: "سعرة حرارية",
+                    footer: "تم الحصول على هذه الحسابات والبيانات من خلال النماذج والمعادلات الطبية المعتمدة مثل Mifflin-St Jeor و معادلة البحرية الأمريكية لحساب الدهون ومستوى النشاط البدني للـ FAO/WHO/UNU.<br/>جميع الحقوق محفوظة لمجموعة Health Intelligence Suite &copy; 2026."
+                },
+                en: {
+                    title: "Health Intelligence & Physical Analysis Summary",
+                    subtitle: "Integrated Digital Physiological Report",
+                    suite: "Health Intelligence Group",
+                    dateLabel: "Report Date",
+                    sec1: "I. Subject Profile Details",
+                    nameLabel: "Subject Name:",
+                    emailLabel: "Email ID:",
+                    sexLabel: "Biological Sex:",
+                    ageLabel: "Age:",
+                    heightLabel: "Height:",
+                    weightLabel: "Weight:",
+                    sec2: "II. Obesity Indicators & Body Composition",
+                    thMetric: "Physiological Marker",
+                    thValue: "Recorded Value",
+                    thClass: "Classification & Risks",
+                    bmiLabel: "Body Mass Index (BMI)",
+                    fatPctLabel: "Body Fat Percentage",
+                    whrLabel: "Waist-to-Hip Ratio (WHR)",
+                    whtrLabel: "Waist-to-Height Ratio (WHtR)",
+                    asIndexLabel: "AS Index (Hip - Waist)",
+                    lbmLabel: "Lean Body Mass (Active tissues):",
+                    fatLabel: "Stored Fat Mass:",
+                    sec3: "III. Metabolic Demands & Daily BMR",
+                    sec4: "IV. Macronutrients Targets Distributions",
+                    bmr: "Basal Metabolic Rate (BMR):",
+                    tdee: "Total Daily Burn (TDEE):",
+                    calorieGoal: "Target Calories:",
+                    protein: "Protein Target:",
+                    carbs: "Carbs Target:",
+                    fats: "Fats Target:",
+                    sec5: "V. Daily Physical Activity Log & PAL Multiplier",
+                    palLabel: "Approved PAL Factor:",
+                    palModelDetailed: "FAO/WHO 24h Recall Model",
+                    palModelQuick: "Quick Estimation",
+                    noExercises: "No additional exercises logged for today.",
+                    exerciseMins: "mins",
+                    exerciseBurn: "kcal",
+                    footer: "Calculations and body composition profiles derived using verified clinical equations including Mifflin-St Jeor, U.S. Navy Circumference formula, and WHO/UNU time-allocation metrics.<br/>Calculated by MY Health Intelligence &copy; 2026. Tabuk, Saudi Arabia."
+                }
+            };
+
+            const t = isAr ? dictionary.ar : dictionary.en;
+
+            printElement.innerHTML = `
+                <!-- Image Header -->
+                <div style="border-bottom: 3px solid #16a34a; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; direction: ${isAr ? 'rtl' : 'ltr'};">
+                    <div style="text-align: ${isAr ? 'right' : 'left'}; float: ${isAr ? 'right' : 'left'};">
+                        <h1 style="font-size: 18px; font-weight: 800; color: #15803d; margin: 0; font-family: sans-serif;">${t.title}</h1>
+                        <span style="font-size: 10px; font-weight: 600; color: #64748b;">${t.subtitle}</span>
+                    </div>
+                    <div style="text-align: ${isAr ? 'left' : 'right'}; float: ${isAr ? 'left' : 'right'};">
+                        <span style="font-size: 11px; font-weight: bold; color: #1e293b; display: block;">${t.suite}</span>
+                        <span style="font-size: 9px; color: #94a3b8;">${t.dateLabel}: ${generatedDate}</span>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <!-- Section 1: Subject Metadata -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 16px; direction: ${isAr ? 'rtl' : 'ltr'}; text-align: ${isAr ? 'right' : 'left'};">
+                    <h3 style="font-size: 12px; font-weight: 700; color: #1e293b; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; margin-bottom: 10px; margin-top: 0;">${t.sec1}</h3>
+                    <table style="width: 100%; font-size: 10px; border-collapse: collapse; text-align: ${isAr ? 'right' : 'left'};">
+                        <tr>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b; width: 25%;">اسم الخاضع للفحص:</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.subjectName}</td>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b; width: 25%;">البريد الإلكتروني:</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.subjectEmail}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b;">الجنس البيولوجي:</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.sex === 'male' ? (isAr ? 'ذكر' : 'Male') : (isAr ? 'أنثى' : 'Female')}</td>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b;">${t.ageLabel}</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.age} ${profile.system === 'metric' ? (isAr ? 'عاماً' : 'yrs') : (isAr ? 'عاماً' : 'yrs')}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b;">${t.heightLabel}</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.heightCm || calc.height || 'N/A'}</td>
+                            <td style="padding: 4px; font-weight: bold; color: #64748b;">${t.weightLabel}</td>
+                            <td style="padding: 4px; font-weight: 800; color: #0f172a;">${profile.weight} ${profile.system === 'metric' ? (isAr ? 'كجم' : 'kg') : (isAr ? 'رطل' : 'lbs')}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Section 2: Clinical Obesity & Body Composition -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 16px; direction: ${isAr ? 'rtl' : 'ltr'}; text-align: ${isAr ? 'right' : 'left'};">
+                    <h3 style="font-size: 12px; font-weight: 700; color: #1e293b; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; margin-bottom: 10px; margin-top: 0;">${t.sec2}</h3>
+                    <table style="width: 100%; font-size: 10px; border-collapse: collapse; text-align: ${isAr ? 'right' : 'left'}; margin-bottom: 12px;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9;">
+                                <th style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #475569;">${t.thMetric}</th>
+                                <th style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #475569;">${t.thValue}</th>
+                                <th style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #475569;">${t.thClass}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 600;">${t.bmiLabel}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 800;">${calc.bmi}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #b45309;">${getTranslatedValue(calc.bmiClass, langCode)}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 600;">${t.fatPctLabel}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 800;">${calc.bodyFatPercentage}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #7c3aed;">${getTranslatedValue(calc.bodyFatClassification, langCode)}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 600;">${t.whrLabel}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 800;">${calc.whr}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold; color: #b45309;">${getTranslatedValue(calc.whrClass, langCode)}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 600;">${t.whtrLabel}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: 800;">${calc.whtr}</td>
+                                <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold; color: #b45309;">${getTranslatedValue(calc.whtrClass, langCode)}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: 600;">${t.asIndexLabel}</td>
+                                <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: 800;">${calc.asIndex}</td>
+                                <td style="padding: 8px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">${getTranslatedValue(calc.asIndexClassification, langCode)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="background-color: #faf5ff; border: 1px solid #f3e8ff; border-radius: 8px; padding: 10px; font-size: 10px; direction: ${isAr ? 'rtl' : 'ltr'};">
+                        <span style="color: #16a34a; font-weight: bold; float: ${isAr ? 'right' : 'left'};">${t.lbmLabel} ${dataStrLbm(leanMassKgVal)}</span>
+                        <span style="color: #7c3aed; font-weight: bold; float: ${isAr ? 'left' : 'right'};">${t.fatLabel} ${dataStrFat(fatMassKgVal)}</span>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Metabolism & Caloric Targets -->
+                <div style="margin-bottom: 16px; direction: ${isAr ? 'rtl' : 'ltr'};">
+                    <div style="width: 48%; float: ${isAr ? 'right' : 'left'}; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-sizing: border-box; text-align: right;">
+                        <h4 style="font-size: 11px; font-weight: bold; color: #475569; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">${t.sec3}</h4>
+                        <div style="font-size: 10px; line-height: 1.8;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>${t.bmr}</span>
+                                <strong>${dataValueFormatter(calc.bmr)}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                                <span>${t.tdee}</span>
+                                <strong>${dataValueFormatter(calc.tdee)}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 6px; border-top: 1px solid #e2e8f0; padding-top: 6px; font-size: 11px; font-weight: bold;">
+                                <span style="color: #15803d;">${t.calorieGoal}</span>
+                                <strong style="color: #15803d;">${dataValueFormatter(calc.calorieGoal)}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 48%; float: ${isAr ? 'left' : 'right'}; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-sizing: border-box; text-align: right;">
+                        <h4 style="font-size: 12px; font-weight: bold; color: #475569; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">${t.sec4}</h4>
+                        <div style="font-size: 10px; line-height: 1.8;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>${t.protein}</span>
+                                <strong>${dataValueFormatter(calc.macros?.protein)}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                                <span>${t.carbs}</span>
+                                <strong>${dataValueFormatter(calc.macros?.carbs)}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                                <span>${t.fats}</span>
+                                <strong>${dataValueFormatter(calc.macros?.fats)}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <!-- Section 4: Logged Activities -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 20px; direction: ${isAr ? 'rtl' : 'ltr'}; text-align: right;">
+                    <h3 style="font-size: 13px; font-weight: bold; color: #1e293b; margin-top: 0; margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">${t.sec5}</h3>
+                    <div style="font-size: 10px; line-height: 1.6;">
+                        <div style="margin-bottom: 8px;"><strong>${t.palLabel}</strong> <span class="text-brand-600 font-bold">${calc.palValue || '1.375'}</span> (${profile.palMode === 'detailed' ? t.palModelDetailed : t.palModelQuick})</div>
+                        ${(profile.exerciseLogs || []).length === 0 ? `<span style="color: #94a3b8; font-style: italic;">${t.noExercises}</span>` : 
+                        `<ul style="margin: 0; padding-right: 15px;">
+                            ${profile.exerciseLogs.map(w => `<li style="margin-bottom: 4px;"><strong>${w.name}</strong> - المدة: ${w.duration} ${isAr ? t.exerciseMins : 'mins'} &bull; الطاقة المستهلكة: <span style="color: #0284c7; font-weight: bold;">${w.calories} ${isAr ? t.exerciseBurn : 'kcal'}</span></li>`).join('')}
+                         </ul>`
+                        }
+                    </div>
+                </div>
+
+                <!-- Scientific Citations Page Footer -->
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 15px; text-align: center; font-size: 9px; color: #94a3b8; line-height: 1.4; direction: rtl;">
+                    ${t.footer}
+                </div>
+            `;
+
+            // Helper formatters
+            function dataStrLbm(weight) {
+                if (isAr) {
+                    return profile.system === 'metric' ? `${weight.toFixed(1)} كجم` : `${(weight * 2.20462).toFixed(1)} رطل`;
+                } else {
+                    return profile.system === 'metric' ? `${weight.toFixed(1)} kg` : `${(weight * 2.20462).toFixed(1)} lbs`;
+                }
+            }
+            function dataStrFat(weight) {
+                if (isAr) {
+                    return profile.system === 'metric' ? `${weight.toFixed(1)} كجم` : `${(weight * 2.20462).toFixed(1)} رطل`;
+                } else {
+                    return profile.system === 'metric' ? `${weight.toFixed(1)} kg` : `${(weight * 2.20462).toFixed(1)} lbs`;
+                }
+            }
+            function dataValueFormatter(val) {
+                return val ? val : "N/A";
+            }
+
+            // Create a fully visible but out-of-screen element to guarantee painting & rendering
+            const printWrapper = document.createElement('div');
+            printWrapper.style.position = 'absolute';
+            printWrapper.style.left = '50000px';
+            printWrapper.style.top = '0px';
+            printWrapper.style.margin = '0';
+            printWrapper.style.padding = '0';
+            printWrapper.appendChild(printElement);
+            document.body.appendChild(printWrapper);
+
+            const filename = `health_report_${profile.subjectName.replace(/\s+/g, '_')}_${langCode}.png`;
+
+            // Execute html2canvas render pass
+            html2canvas(printElement, {
+                useCORS: true,
+                scale: 2,
+                logging: false,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                document.body.removeChild(printWrapper); // Clean up safely
+                showCustomMessageBox(isAr ? `تم تحميل التقرير لـ ${profile.subjectName} كصورة بنجاح!` : `Successfully downloaded diagnostic image report for ${profile.subjectName}!`, "success");
+            }).catch(err => {
+                if (printWrapper.parentNode) {
+                    document.body.removeChild(printWrapper); // Secure clean up on error
+                }
+                showCustomMessageBox(`Failed to export image report: ${err.message}`, "error");
+            });
+        }
+
+        // --- GOOGLE SHEETS SETUP GUIDE DYNAMIC HANDLERS ---
+        openSheetsGuide.addEventListener('click', () => {
+            sheetsGuideModal.classList.remove('hidden');
+        });
+
+        closeSheetsGuide.addEventListener('click', () => {
+            sheetsGuideModal.classList.add('hidden');
+        });
+
+        copyAppsScriptBtn.addEventListener('click', () => {
+            const scriptCode = appsScriptTemplate.innerText;
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = scriptCode;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            showCustomMessageBox("Apps Script template copied to clipboard!", "success");
+        });
+
+        // Close guide modal when clicking backdrop
+        sheetsGuideModal.addEventListener('click', (e) => {
+            if (e.target === sheetsGuideModal) {
+                sheetsGuideModal.classList.add('hidden');
+            }
+        });
+
+        // --- CORE HELPER FUNCTIONS & RENDERING UTILITIES ---
+        function parseMarkdownToHTML(markdown) {
+            let html = markdown
+                .replace(/^### (.*$)/gim, '<h4 class="text-sm font-bold text-slate-800 dark:text-white mt-4 mb-2">$1</h4>')
+                .replace(/^## (.*$)/gim, '<h3 class="text-base font-extrabold text-indigo-600 dark:text-indigo-400 mt-5 mb-2">$1</h3>')
+                .replace(/^# (.*$)/gim, '<h2 class="text-lg font-black text-slate-900 dark:text-white mt-6 mb-3">$1</h2>')
+                .replace(/^\* (.*$)/gim, '<li class="ml-4 list-disc text-xs text-slate-600 dark:text-slate-300">$1</li>')
+                .replace(/^- (.*$)/gim, '<li class="ml-4 list-disc text-xs text-slate-600 dark:text-slate-300">$1</li>')
+                .replace(/\*\*(.*?)\*\"/g, '<strong class="font-bold text-slate-800 dark:text-white">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+                .replace(/\n$/gim, '<br />');
+            return html;
+        }
+
+        function appendChatMessage(sender, text, type) {
+            const id = "msg_" + Date.now();
+            const div = document.createElement("div");
+            div.id = id;
+            div.className = "p-3 rounded-xl text-xs leading-relaxed transition-all ";
+            
+            if (type === "user") {
+                div.className += "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-200 border-l-4 border-indigo-500 self-end ml-6";
+                div.innerHTML = `<span class="font-bold block mb-0.5 text-[10px] text-indigo-500">You</span> ${text}`;
+            } else if (type === "coach") {
+                div.className += "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 border-l-4 border-emerald-500 mr-6";
+                div.innerHTML = `<span class="font-bold block mb-0.5 text-[10px] text-emerald-500">Coach</span> ${text}`;
+            } else if (type === "coach-thinking") {
+                div.className += "bg-slate-100 dark:bg-slate-800 text-slate-400 italic mr-6 animate-pulse";
+                div.innerHTML = `${text}`;
+            } else {
+                div.className += "bg-red-50 dark:bg-red-950/30 text-red-600 border border-red-200 mr-6";
+                div.innerHTML = `${text}`;
+            }
+
+            chatHistory.appendChild(div);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            return id;
+        }
+
+        function removeChatMessage(id) {
+            const elem = document.getElementById(id);
+            if (elem) elem.remove();
+        }
+
+        function showCustomMessageBox(msg, type = "success") {
+            const box = document.createElement("div");
+            box.className = `fixed bottom-6 right-6 z-50 p-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-10 opacity-0 border max-w-sm text-sm font-semibold `;
+            
+            if (type === "success") {
+                box.className += "bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-slate-900 dark:border-emerald-900 dark:text-emerald-300";
+                box.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5 text-brand-500 flex-shrink-0"></i> <span>${msg}</span>`;
+            } else {
+                box.className += "bg-red-50 border-red-200 text-red-800 dark:bg-slate-900 dark:border-red-950 dark:text-red-300";
+                box.innerHTML = `<i data-lucide="alert-triangle" class="w-5 h-5 text-red-500 flex-shrink-0"></i> <span>${msg}</span>`;
+            }
+
+            document.body.appendChild(box);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                box.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                box.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => box.remove(), 300);
+            }, 4500);
+        }
+
+        // --- TRANSLATOR TRANSLATION DICTIONARY MAPS ---
+        function getTranslatedValue(val, targetLang) {
+            if (targetLang === 'en') return val;
+            const dict = {
+                // Sex
+                "male": "ذكر",
+                "female": "أنثى",
+                // BMI Classes
+                "Normal": "وزن طبيعي",
+                "Underweight": "نقص الوزن",
+                "Over-weight": "وزن زائد",
+                "Obesity Type 1": "سمنة من الدرجة الأولى",
+                "Obesity Type 2": "سمنة من الدرجة الثانية",
+                "Obesity Type 3": "سمنة مفرطة من الدرجة الثالثة",
+                // AS Index Classifications
+                "Android Obesity": "سمنة أندرويدية (تفاحية الشكل)",
+                "Barrel Shaped Obesity": "سمنة برميلية الشكل",
+                "Intermediate Shape": "جسم متناسق بيني",
+                "Gynoid Obesity": "سمنة جينويدية (شكل كمثرى)",
+                // ACE classifications
+                "Essential Fat": "دهون أساسية فيزيولوجية",
+                "Athletes": "مستوى الرياضيين المحترفين",
+                "Fitness": "مستوى اللياقة البدنية البديل",
+                "Acceptable": "معدل طبيعي مقبول",
+                "Obese": "معدل سمنة مرتفع"
+            };
+            return dict[val] || val;
+        }
+    </script>
+
+    <!-- Google Sheets Setup Guide Modal (Hidden by Default) -->
+    <div id="sheetsGuideModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-2xl w-full p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="p-2 bg-accent-500 text-white rounded-lg">
+                        <i data-lucide="sheet" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900 dark:text-white">Google Sheets Integration Guide</h4>
+                        <span class="text-[10px] text-slate-400">Log patient data to Google Sheets in 3 steps</span>
+                    </div>
+                </div>
+                <button type="button" id="closeSheetsGuide" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                <p>Follow these instructions to connect your health dashboard directly to a spreadsheet for research or patient monitoring:</p>
+                
+                <ol class="list-decimal pl-5 space-y-2">
+                    <li>
+                        <strong>Create a Google Sheet:</strong> Create a new Google Sheet. Rename the first tab to <code class="bg-slate-100 dark:bg-slate-950 px-1 py-0.5 rounded text-red-500">Subjects</code>.
+                    </li>
+                    <li>
+                        <strong>Open Apps Script:</strong> Click <strong>Extensions</strong> &rarr; <strong>Apps Script</strong> in the menu. Paste the code below, replacing any existing template code.
+                    </li>
+                    <li>
+                        <strong>Deploy Web App:</strong> Click <strong>Deploy</strong> &rarr; <strong>New deployment</strong>. Under select type, select <strong>Web app</strong>. Configure:
+                        <ul class="list-disc pl-5 mt-1 text-[11px] text-slate-500">
+                            <li><em>Execute as:</em> Me</li>
+                            <li><em>Who has access:</em> Anyone</li>
+                        </ul>
+                        Click <strong>Deploy</strong>, authorize permissions, and copy the generated <strong>Web App URL</strong>. Paste it into this app's settings panel.
+                    </li>
+                </ol>
+
+                <div class="pt-2">
+                    <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-950 p-2.5 rounded-t-xl border border-b-0 border-slate-200 dark:border-slate-800">
+                        <span class="font-bold text-[10px] text-slate-500 dark:text-slate-400">Apps Script Code Template</span>
+                        <button type="button" id="copyAppsScriptBtn" class="px-2 py-1 bg-brand-500 hover:bg-brand-600 text-white rounded text-[10px] font-bold transition flex items-center gap-1">
+                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Code
+                        </button>
+                    </div>
+                    <pre id="appsScriptTemplate" class="p-3 bg-slate-950 text-emerald-400 font-mono rounded-b-xl overflow-x-auto text-[10px] leading-normal border border-slate-800 max-h-[220px]">
+function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Subjects");
+    
+    // Auto-create header row if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp", "Name", "Email", "Sex", "Age", "BMI", "BMI Class", 
+        "Body Fat %", "Body Fat Class", "AS Index", "AS Index Class", 
+        "BMR (kcal)", "TDEE (kcal)", "Target Calories", "Goal"
+      ]);
+    }
+    
+    sheet.appendRow([
+      new Date(),
+      data.subjectName || "N/A",
+      data.subjectEmail || "N/A",
+      data.sex || "N/A",
+      data.age || "N/A",
+      data.calculations?.bmi || "N/A",
+      data.calculations?.bmiClass || "N/A",
+      data.calculations?.bodyFatPercentage || "N/A",
+      data.calculations?.bodyFatClassification || "N/A",
+      data.calculations?.asIndex || "N/A",
+      data.calculations?.asIndexClassification || "N/A",
+      data.calculations?.bmr || "N/A",
+      data.calculations?.tdee || "N/A",
+      data.calculations?.calorieGoal || "N/A",
+      data.calculations?.goal || "N/A"
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(error) {
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
